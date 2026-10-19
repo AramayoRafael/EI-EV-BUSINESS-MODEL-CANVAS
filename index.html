@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evaluación · Business Model Canvas</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#0d0b0a; --txt:#f6f1e9; --mut:#b9aea1; --line:rgba(255,255,255,.12);
+  --glass:rgba(30,25,21,.74); --glass2:rgba(255,255,255,.05);
+  --caso:#a78bfa; --f1:#facc15; --f2:#f43f5e; --f3:#34d399;
+  --ok:#34d399; --err:#fb7185; --r:18px;
+  --corcho1:#c99a66; --corcho2:#a9784a; --marco:#5b3a21; --papel:#fbf7ee; --tinta:#1f1b16; --tinta2:#6b6156;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;min-height:100vh;overflow-x:hidden}
+button{font:inherit}
+/* ---------- fondo ---------- */
+.fondo{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:radial-gradient(1200px 800px at 50% -10%,#2a1d14 0%,var(--bg) 62%)}
+.fondo::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at 50% 30%,#000 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 30%,transparent 75%)}
+.aur{position:absolute;border-radius:50%;filter:blur(90px);opacity:.26;animation:flota 22s ease-in-out infinite alternate}
+.aur.a1{width:520px;height:520px;background:#f59e0b;top:-170px;left:-140px}
+.aur.a2{width:460px;height:460px;background:#f43f5e;top:32%;right:-170px;animation-delay:-6s}
+.aur.a3{width:420px;height:420px;background:#10b981;bottom:-190px;left:22%;animation-delay:-12s}
+@keyframes flota{to{transform:translate(60px,40px) scale(1.12)}}
+/* ---------- layout ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:22px 16px 90px}
+.panel{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);padding:22px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 40px rgba(0,0,0,.35);margin:18px 0;position:relative}
+.panel.neon{border-color:color-mix(in srgb,var(--c) 45%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--c) 18%,transparent),0 0 34px color-mix(in srgb,var(--c) 14%,transparent),0 10px 40px rgba(0,0,0,.35)}
+.oculto{display:none!important}
+h1.tit{font-size:clamp(34px,7vw,64px);line-height:1;margin:6px 0 10px;font-weight:900;letter-spacing:-.03em;background:linear-gradient(92deg,#fde68a,#fb923c 35%,#f43f5e 65%,#34d399);-webkit-background-clip:text;background-clip:text;color:transparent;cursor:default;user-select:none}
+h2{font-size:clamp(22px,4vw,30px);margin:0 0 6px;font-weight:850;letter-spacing:-.01em}
+h3{font-size:18px;margin:18px 0 8px;font-weight:800}
+.kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut);font-weight:700}
+.mut{color:var(--mut)} .peq{font-size:14px}
+.grad{background:linear-gradient(92deg,var(--c),#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;font-size:13px;font-weight:700;border:1px solid var(--line);background:var(--glass2)}
+.chip.c{border-color:color-mix(in srgb,var(--c) 55%,transparent);color:var(--c)}
+/* ---------- formularios ---------- */
+label.l{display:block;font-weight:700;font-size:14px;margin:14px 0 6px}
+input[type=text],textarea{width:100%;font:inherit;color:var(--txt);background:rgba(8,6,5,.6);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:11px 13px;outline:none;transition:border-color .2s,box-shadow .2s}
+textarea{min-height:96px;resize:vertical;line-height:1.5}
+input:focus,textarea:focus{border-color:var(--c,#fb923c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c,#fb923c) 25%,transparent)}
+.inval{border-color:var(--err)!important;box-shadow:0 0 0 3px rgba(251,113,133,.25)!important}
+:disabled{cursor:not-allowed}
+textarea:disabled,input:disabled{opacity:.8}
+.cont{font-size:12px;color:var(--mut);text-align:right;margin-top:3px}
+.cont.ok{color:var(--ok)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:800;border:0;border-radius:14px;padding:13px 22px;cursor:pointer;color:#140f0b;background:linear-gradient(92deg,var(--c,#fb923c),color-mix(in srgb,var(--c,#fb923c) 55%,#fff));box-shadow:0 6px 24px color-mix(in srgb,var(--c,#fb923c) 35%,transparent);transition:transform .15s,filter .15s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.07)}
+.btn:disabled{opacity:.6;transform:none}
+.btn.sec{background:var(--glass2);color:var(--txt);border:1px solid var(--line);box-shadow:none}
+.btn.peli{background:linear-gradient(92deg,#fb7185,#fda4af)}
+.btn.chico{padding:8px 14px;font-size:14px;border-radius:11px}
+.filab{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px}
+/* ---------- portada ---------- */
+.portada{display:grid;grid-template-columns:1.25fr 1fr;gap:26px;align-items:center}
+.mini{display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:repeat(3,58px);gap:6px;padding:14px;border-radius:16px;background:linear-gradient(135deg,var(--corcho1),var(--corcho2));border:7px solid var(--marco);box-shadow:inset 0 0 22px rgba(0,0,0,.4)}
+.mini i{border-radius:4px;box-shadow:0 4px 8px rgba(0,0,0,.25);opacity:0;animation:pop .5s cubic-bezier(.2,1.6,.4,1) forwards;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:20px}
+@keyframes pop{from{opacity:0;transform:scale(.4) rotate(-12deg)}to{opacity:1;transform:none}}
+/* ---------- barra ---------- */
+.barra{background:rgba(13,11,10,.72);border-bottom:1px solid var(--line)}
+.barra .in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
+.quien{font-size:14px;line-height:1.3;min-width:0;flex:1 1 220px}
+.quien b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.navfija{position:sticky;top:0;z-index:20;background:rgba(13,11,10,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{max-width:1180px;margin:0 auto;padding:8px 16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:0 0 auto;font-size:13px;font-weight:800;text-decoration:none;color:var(--txt);padding:6px 11px;border-radius:10px;border:1px solid var(--line);background:var(--glass2)}
+.nav a.hecho{border-color:color-mix(in srgb,var(--c) 70%,transparent);color:var(--c)}
+.nav a.hecho::after{content:" ✓"}
+.prog{height:4px;background:rgba(255,255,255,.07)}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--f1),var(--f2),var(--f3));transition:width .6s}
+section.panel{scroll-margin-top:64px}
+/* ---------- ficha del caso ---------- */
+.ficha-caso{background:var(--papel);color:var(--tinta);border-radius:6px;padding:22px 22px 18px;position:relative;box-shadow:0 14px 30px rgba(0,0,0,.4);transform:rotate(-.4deg);margin-top:16px}
+.ficha-caso::before,.ficha-caso::after{content:"";position:absolute;top:-10px;width:90px;height:22px;background:rgba(255,236,170,.75);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.ficha-caso::before{left:24px;transform:rotate(-4deg)} .ficha-caso::after{right:24px;transform:rotate(3deg)}
+.ficha-caso h2{color:var(--tinta)}
+.ficha-caso p{margin:8px 0;max-width:82ch}
+#sB3 .ficha-caso p{font-size:16px;line-height:1.7;margin:12px 0}
+.ficha-caso .chip{color:var(--tinta);border-color:rgba(0,0,0,.18);background:rgba(0,0,0,.04)}
+.aviso{padding:12px 14px;border-radius:14px;border:1px dashed color-mix(in srgb,var(--c) 60%,transparent);background:color-mix(in srgb,var(--c) 8%,transparent);font-size:14.5px;margin:12px 0}
+/* ---------- bloques (fases) ---------- */
+.bloque-h{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.num{font-size:48px;font-weight:900;line-height:.9;color:transparent;-webkit-text-stroke:1.5px var(--c);opacity:.9}
+.estado{font-size:13px;font-weight:800;padding:5px 11px;border-radius:999px;border:1px solid var(--line)}
+.estado.env{color:var(--ok);border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.08)}
+/* ---------- tablero de corcho y lienzo ---------- */
+.corcho{position:relative;border-radius:14px;padding:16px;margin-top:14px;background:
+  radial-gradient(rgba(70,40,15,.28) 1px,transparent 1.7px) 0 0/9px 9px,
+  radial-gradient(rgba(255,240,220,.18) 1px,transparent 1.7px) 4px 5px/13px 13px,
+  linear-gradient(135deg,var(--corcho1),var(--corcho2));
+  border:10px solid var(--marco);box-shadow:inset 0 0 30px rgba(0,0,0,.45),0 18px 50px rgba(0,0,0,.5)}
+.lienzo{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));grid-template-areas:"SO SO AC AC PV PV RC RC SC SC" "SO SO RK RK PV PV CA CA SC SC" "EC EC EC EC EC FI FI FI FI FI";background:var(--papel);border:2px solid var(--tinta);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.bq{border:1px solid var(--tinta);padding:8px 8px 10px;min-height:150px;color:var(--tinta);position:relative;transition:background .2s;min-width:0}
+.bq h4{margin:0;font-size:12px;text-transform:uppercase;letter-spacing:.05em;display:flex;align-items:center;gap:6px;line-height:1.2}
+.bq h4 .ico{font-size:16px}
+.bq .q{font-size:11px;color:var(--tinta2);margin:2px 0 8px;line-height:1.3}
+.bq .pila{display:flex;flex-direction:column;gap:9px;padding-top:4px}
+.bq.pulso{animation:pulso .5s}
+@keyframes pulso{50%{background:#fff3b0}}
+body.eligiendo #lz1 .bq,body.eligiendo #pap{cursor:pointer;outline:2px dashed rgba(14,165,233,.75);outline-offset:-5px}
+body.eligiendo #lz1 .bq:hover,body.eligiendo #pap:hover,.bq.sobre,#pap.sobre{background:#fff6c9}
+/* post-its */
+.pi{display:block;text-align:left;font-weight:600;font-size:13px;line-height:1.32;color:#1f1b16;background:var(--pc);padding:12px 10px 12px;border-radius:2px 2px 12px 2px;box-shadow:0 6px 12px rgba(0,0,0,.28);transform:rotate(var(--rot));cursor:pointer;border:0;position:relative;width:172px;flex:0 0 auto;transition:transform .15s,box-shadow .15s;touch-action:manipulation}
+.pi::before{content:"";position:absolute;top:-8px;left:50%;width:46px;height:16px;transform:translateX(-50%) rotate(-3deg);background:rgba(255,255,255,.55);box-shadow:0 1px 2px rgba(0,0,0,.15)}
+.pi:hover{transform:rotate(0) translateY(-2px)}
+.pi:focus-visible{outline:3px solid #0ea5e9;outline-offset:2px}
+.pi.sel{transform:rotate(0) scale(1.05) translateY(-4px);box-shadow:0 0 0 3px #0ea5e9,0 14px 26px rgba(0,0,0,.45);z-index:2}
+.bq .pi,#pap .pi{width:auto;font-size:12px;padding:8px 8px 9px;transform:rotate(calc(var(--rot) * .45))}
+#pap .pi{width:170px}
+.bq .pi::before,#pap .pi::before{width:30px;height:10px;top:-5px}
+.fijo .pi{cursor:default}
+.fijo .pi:hover{transform:rotate(calc(var(--rot) * .45))}
+.fantasma{position:fixed!important;pointer-events:none;z-index:95;opacity:.95;transform:rotate(4deg) scale(1.05)!important;box-shadow:0 18px 30px rgba(0,0,0,.5)!important}
+.papelera{margin-top:14px;border:2px dashed rgba(31,27,22,.55);background:rgba(255,255,255,.2);border-radius:12px;padding:10px 12px;min-height:84px;color:var(--tinta)}
+.papelera b{font-size:13px}
+.papelera .pila{display:flex;flex-wrap:wrap;gap:12px;padding-top:10px}
+.bandeja{position:sticky;bottom:0;z-index:15;margin-top:14px;background:rgba(22,18,15,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:16px;padding:10px 12px 4px;box-shadow:0 -10px 30px rgba(0,0,0,.35)}
+.bandeja .cab{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;justify-content:space-between;font-size:13.5px}
+.bandeja .tira{display:flex;gap:16px;overflow-x:auto;padding:14px 4px 14px;min-height:108px;align-items:flex-start}
+.bandeja .tira.vacia{min-height:0;padding:8px 4px 10px}
+.bandeja .tira.vacia::after{content:"¡Bandeja vacía! Todos los post-its están en el lienzo o en la papelera.";color:var(--mut);font-size:14px;align-self:center}
+.selbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.desliza{font-size:12.5px;font-weight:800;color:var(--f1);animation:empuja 1.6s ease-in-out infinite}
+@keyframes empuja{50%{transform:translateX(5px)}}
+/* fase 2: correo del directorio y lienzo en blanco */
+.correo{background:#fff;color:var(--tinta);border-radius:10px;margin-top:16px;box-shadow:0 14px 30px rgba(0,0,0,.45);overflow:hidden;position:relative}
+.correo-cab{display:flex;gap:14px;align-items:flex-start;padding:14px 18px;background:#f3eee6;border-bottom:1px solid #e2d9cc;font-size:14px;line-height:1.5}
+.correo-cab .av{flex:0 0 auto;width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#fb923c,#f43f5e);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px}
+.correo p{margin:0;padding:16px 18px 20px;font-size:15.5px;line-height:1.65}
+.sello{position:absolute;top:14px;right:16px;border:3px solid #dc2626;color:#dc2626;font-weight:900;letter-spacing:.12em;padding:2px 10px;border-radius:6px;transform:rotate(7deg);font-size:13px;opacity:.85}
+.antes{font-size:11.5px;color:var(--tinta2);margin:0 0 6px}
+.antes summary{cursor:pointer;font-weight:700}
+.antes ul{margin:4px 0 0;padding-left:16px}
+textarea.nota{background:#fef3c7;color:var(--tinta);border:0;border-radius:2px 2px 14px 2px;box-shadow:0 6px 12px rgba(0,0,0,.22);font-size:13.5px;line-height:1.4;min-height:118px;padding:12px 10px}
+textarea.nota:focus{box-shadow:0 0 0 3px rgba(249,115,22,.55),0 8px 16px rgba(0,0,0,.25)}
+textarea.nota::placeholder{color:#a8977d}
+textarea.nota:disabled{opacity:1;background:#fdf6dc}
+.bq .cont{color:var(--tinta2)}
+.bq .cont.ok{color:#047857}
+#lz2 .bq:nth-child(3n+2) textarea.nota{background:#fce7f3}
+#lz2 .bq:nth-child(3n) textarea.nota{background:#e0f2fe}
+/* fase 3: cinco fuerzas de Porter */
+.porter{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-areas:". ENT ." "PRO RIV CLI" ". SUS .";gap:16px;margin-top:16px;position:relative}
+.fz{border:2px solid var(--line);background:var(--glass2);border-radius:16px;padding:14px;position:relative;transition:border-color .25s,background .25s}
+.fz h4{margin:0;font-size:15.5px;display:flex;gap:8px;align-items:center;line-height:1.25}
+.fz h4 .ico{font-size:22px}
+.fz .q{font-size:13px;color:var(--mut);margin:4px 0 10px}
+.fz[data-f="RIV"]{background:rgba(255,255,255,.07)}
+.fz[data-nivel="Alta"]{border-color:#ef4444;background:rgba(239,68,68,.12)}
+.fz[data-nivel="Media"]{border-color:#f59e0b;background:rgba(245,158,11,.11)}
+.fz[data-nivel="Baja"]{border-color:#22c55e;background:rgba(34,197,94,.1)}
+.niveles{display:flex;gap:6px;margin-bottom:10px}
+.niveles button{flex:1;border:1px solid var(--line);background:rgba(0,0,0,.25);color:var(--txt);border-radius:10px;padding:8px 4px;font-weight:800;cursor:pointer;font-size:14px}
+.niveles button.on[data-n="Alta"]{background:#ef4444;border-color:#ef4444;color:#fff}
+.niveles button.on[data-n="Media"]{background:#f59e0b;border-color:#f59e0b;color:#1c1206}
+.niveles button.on[data-n="Baja"]{background:#22c55e;border-color:#22c55e;color:#052e14}
+.niveles.inval{outline:2px solid var(--err);outline-offset:3px;border-radius:10px}
+.fz textarea{min-height:110px;font-size:14.5px}
+.resumen-f{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 4px}
+.resumen-f span{padding:6px 12px;border-radius:999px;font-weight:800;font-size:14px}
+/* ---------- responsive ---------- */
+@media (max-width:860px){
+  .portada{grid-template-columns:1fr}
+  .lienzo{grid-template-columns:1fr 1fr;grid-template-areas:"PV PV" "SC CA" "RC FI" "AC RK" "SO EC"}
+  .bq{min-height:120px}
+  .panel{padding:16px}
+  .num{font-size:38px}
+  .corcho{padding:10px;border-width:7px}
+  .porter{grid-template-columns:1fr;grid-template-areas:"ENT" "PRO" "RIV" "CLI" "SUS"}
+}
+@media (max-width:620px){
+  #lz2{grid-template-columns:1fr;grid-template-areas:"SC" "PV" "CA" "RC" "FI" "RK" "AC" "SO" "EC"}
+}
+@media (max-width:420px){
+  .pi{width:150px;font-size:12.5px}
+}
+/* ---------- toast, modal ---------- */
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,160%);z-index:99;max-width:min(560px,calc(100vw - 32px));padding:13px 18px;border-radius:14px;font-weight:700;background:#1d1714;border:1px solid var(--line);box-shadow:0 12px 40px rgba(0,0,0,.5);transition:transform .35s}
+.toast.si{transform:translate(-50%,0)}
+.toast.ok{border-color:rgba(52,211,153,.6)} .toast.err{border-color:rgba(251,113,133,.7)}
+.modal{position:fixed;inset:0;z-index:97;background:rgba(5,3,2,.72);display:flex;align-items:center;justify-content:center;padding:16px}
+.modal .panel{max-width:560px;width:100%;max-height:calc(100vh - 32px);overflow:auto;margin:0}
+.preview-banner{position:sticky;top:0;z-index:25;background:repeating-linear-gradient(45deg,#f59e0b,#f59e0b 14px,#d97706 14px,#d97706 28px);color:#111;font-weight:900;text-align:center;padding:7px 12px;font-size:14px}
+canvas#confeti{position:fixed;inset:0;pointer-events:none;z-index:98}
+.lista-casos{max-height:240px;overflow:auto;font-size:14px;border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin-top:8px}
+.final{text-align:center}
+.final .big{font-size:clamp(28px,6vw,46px);font-weight:900;background:linear-gradient(92deg,var(--f1),var(--f2),var(--f3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.final .corcho{text-align:left}
+.final .pi{animation:pega .55s cubic-bezier(.2,1.5,.4,1) both;animation-delay:var(--d)}
+@keyframes pega{from{opacity:0;transform:translateY(-60px) rotate(-14deg) scale(1.35)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.mini i{opacity:1}}
+@media print{
+  body{background:#fff!important;color:#000}
+  .fondo,#app,#inicio,.toast,.modal,canvas{display:none!important}
+  #aviso-print{display:block!important;font:14pt/1.4 Arial,sans-serif;padding:40px}
+}
+#aviso-print{display:none}
+</style>
+</head>
+<body>
+<div class="fondo" aria-hidden="true"><div class="aur a1"></div><div class="aur a2"></div><div class="aur a3"></div></div>
+
+<script>
+/* =====================================================================
+   CONFIGURACIÓN  (lo único que se edita a mano)
+   ===================================================================== */
+// 1. URL de la aplicación web de Apps Script (la que termina en /exec).
+//    Mientras esté vacía, la app funciona en modo prueba y no envía nada.
+const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzvIh3z8gxFFjqrpHufC1ai1tpUZutpKa2sP0PMDG8mzZdHHzH54mPaSJAastYUq3IDxg/exec';
+// 2. Clave del panel de docente (?docente o cinco toques en el título). Cámbiala.
+const CLAVE_DOCENTE = 'EI-DOCENTE-2026';
+// 3. true = enviar cada fase a Google Sheets. false = solo guardar en el dispositivo.
+const ENVIAR_AL_SHEET = true;
+/* ===================================================================== */
+</script>
+
+<!-- ======================= PANTALLA DE INICIO ======================= -->
+<div id="inicio" class="wrap">
+  <div class="panel neon" style="--c:var(--f1)">
+    <div class="portada">
+      <div>
+        <div class="kicker">UNIFRANZ · Emprendimiento e Innovación · 6.º semestre</div>
+        <h1 class="tit" id="titulo">Business Model Canvas</h1>
+        <p class="mut" style="margin:0 0 6px">Arma el lienzo de una startup boliviana, rediséñalo cuando la gerencia cambia los planes y analiza su sector con las cinco fuerzas de Porter.</p>
+        <div class="filab" style="margin-top:10px">
+          <span class="chip">Individual</span><span class="chip">90 minutos</span><span class="chip">3 fases</span><span class="chip">Una startup distinta por estudiante</span>
+        </div>
+      </div>
+      <div class="mini" id="mini" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <div id="continuar" class="panel oculto" style="--c:var(--f3)">
+    <h3 style="margin-top:0">Hay una evaluación iniciada en este dispositivo</h3>
+    <p class="mut" id="contTxt"></p>
+    <div class="filab">
+      <button class="btn" id="btnCont" style="--c:var(--f3)">Continuar</button>
+      <button class="btn sec" id="btnNoSoy">No soy yo</button>
+    </div>
+  </div>
+
+  <div class="panel" id="login" style="--c:var(--f1)">
+    <h2>Ingreso</h2>
+    <p class="mut peq" style="margin-top:0">Escribe el código que te entregó tu docente. Con ese código se te asigna tu startup: es distinta a la de tus compañeros.</p>
+    <label class="l" for="inCodigo">Código de estudiante</label>
+    <input type="text" id="inCodigo" placeholder="Ejemplo: AB-2345" autocomplete="off" autocapitalize="characters" maxlength="7" style="text-transform:uppercase;letter-spacing:.12em;font-weight:800">
+    <label class="l" for="inNombre">Apellidos y nombres</label>
+    <input type="text" id="inNombre" placeholder="Ejemplo: Rojas Mamani Ana Lucía" autocomplete="off" maxlength="80">
+    <div class="filab">
+      <button class="btn" id="btnEntrar">Ingresar</button>
+      <button class="btn sec" id="btnEjemplo">Ver un caso de ejemplo</button>
+    </div>
+  </div>
+
+  <div class="panel peq">
+    <h3 style="margin-top:0">Antes de empezar</h3>
+    <ul class="mut" style="margin:0;padding-left:20px">
+      <li>Lee primero la ficha de tu startup: todas las respuestas deben apoyarse en datos <b>de tu caso</b>.</li>
+      <li><b>Fase 1 · Arma el lienzo:</b> pega cada post-it en su bloque. Los que no forman parte del modelo de negocio van a la papelera.</li>
+      <li><b>Fase 2 · La sorpresa de la gerencia:</b> llega un mensaje del directorio que cambia los planes; escribe con tus palabras cómo queda cada bloque del nuevo lienzo.</li>
+      <li><b>Fase 3 · Cinco fuerzas de Porter:</b> lee el caso del sector y decide si cada fuerza es alta, media o baja, justificando con hechos del caso.</li>
+      <li>Cada fase se envía por separado y, una vez enviada, ya no se puede modificar. Mientras trabajas, todo se guarda solo en este dispositivo.</li>
+      <li>Al terminar, descarga tu PDF con el botón <b>Descargar PDF</b> y súbelo a la tarea de Moodle.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ======================= APLICACIÓN ======================= -->
+<div id="app" class="oculto">
+  <div id="banPrev" class="preview-banner oculto">VISTA PREVIA · CASO DE EJEMPLO · NADA SE ENVÍA</div>
+  <div class="barra">
+    <div class="in">
+      <div class="quien"><b id="qNombre"></b><span class="mut" id="qDatos"></span></div>
+      <div class="filab" style="margin:0">
+        <button class="btn chico" id="btnPdf" style="--c:var(--f3)">Descargar PDF</button>
+        <button class="btn sec chico" id="btnSalir">Salir</button>
+      </div>
+    </div>
+  </div>
+  <div class="navfija">
+    <nav class="nav" id="nav">
+      <a href="#sCaso" style="--c:var(--caso)">Startup</a>
+      <a href="#sB1" data-b="1" style="--c:var(--f1)">1 · Arma el lienzo</a>
+      <a href="#sB2" data-b="2" style="--c:var(--f2)">2 · La sorpresa</a>
+      <a href="#sB3" data-b="3" style="--c:var(--f3)">3 · 5 fuerzas</a>
+    </nav>
+    <div class="prog"><i id="progBar"></i></div>
+  </div>
+  <div class="wrap" id="contenido"></div>
+</div>
+
+<div id="aviso-print">Para obtener tus respuestas en PDF usa el botón «Descargar PDF» de la evaluación.</div>
+<div class="toast" id="toast"></div>
+<canvas id="confeti" class="oculto"></canvas>
+
+<script>
+/* =====================================================================
+   DATOS DE LA EVALUACIÓN
+   ===================================================================== */
+const EVAL = {
+  materia: 'Emprendimiento e Innovación',
+  titulo: 'Evaluación: Business Model Canvas',
+  semestre: '6.º semestre',
+  carrera: 'Ingeniería Económica y Financiera',
+  prefijo: 'eiBmc26_'            // prefijo de las claves de localStorage
+};
+// Banco de casos (generado por build.py; la clave de corrección NO está aquí)
+const CASOS = [{"e": "Kipu Pay", "r": "Billetera QR para comerciantes", "c": "Cochabamba", "h": "Kipu Pay nació en 2025 en Cochabamba. La fundaron dos egresados de Ingeniería Económica que crecieron ayudando en los puestos de sus familias en La Cancha. Hoy los comerciantes del mercado realizan con su QR unos 60.000 cobros al mes y registran cada venta desde el celular. El mayor problema de esos comerciantes no es cobrar, sino demostrar sus ingresos cuando piden un crédito, porque venden en efectivo y no llevan registros. Kipu Pay convierte cada cobro en un historial de ventas que el comerciante puede descargar como reporte. Un banco socio procesa los pagos QR y una cooperativa de ahorro y crédito ya acepta esos reportes como respaldo de ingresos.", "post": ["Vendedoras de abarrotes y verduras de 30 a 55 años con celular Android", "Cooperativa que acepta los reportes de Kipu Pay como respaldo de crédito", "Un historial de ventas que sirve como respaldo de ingresos para pedir crédito", "Visita mensual de la promotora para resolver dudas en el mismo puesto", "Afiliar y capacitar a los comerciantes en el uso del QR", "Banco socio que procesa los pagos QR y liquida el dinero", "Mantener la app y generar los reportes de ventas cada mes", "La app Kipu Pay, donde el comerciante cobra y descarga sus reportes", "Comerciantes minoristas de La Cancha que venden sobre todo en efectivo", "Grupo de WhatsApp por sector del mercado con soporte en quechua y castellano", "Un competidor de La Paz cerró en 2024 por falta de clientes", "Red de 8 promotoras que conocen personalmente a los comerciantes", "Cobrar con QR sin terminal POS y sin costo de afiliación", "Plataforma de pagos y base de datos con las ventas de cada puesto", "Sueldos de las promotoras y del equipo de desarrollo", "Tarifa por emitir un reporte certificado de ventas para un trámite de crédito", "Promotoras que recorren los pasillos del mercado afiliando puestos", "Costo de procesamiento que cobra el banco por cada transacción", "Comisión facturada por cada cobro QR que recibe el comerciante", "Uno de los fundadores juega en la liga universitaria de fútbol"], "sorp": {"de": "Directorio de Kipu Pay", "asunto": "Tenemos que reinventarnos", "t": "Equipo: tenemos noticias que nos obligan a repensarlo todo. El banco que procesa nuestros cobros QR nos avisó que en tres meses cierra ese servicio para empresas como la nuestra, y ningún otro banco nos ofrece condiciones parecidas. Al mismo tiempo, la cooperativa con la que trabajamos nos hizo una propuesta: quiere pagarnos por cada comerciante con buen historial de ventas que le presentemos, porque así encuentra buenos clientes de crédito sin salir a buscarlos. Y en la última reunión del mercado, varias comerciantes nos dijeron que lo que más valoran no es cobrar con QR —eso ya lo hace cualquier app—, sino saber cuánto ganan de verdad al final del mes. Queremos dejar de depender de los cobros y convertirnos en otra cosa. Necesitamos que nos propongas cómo quedaría Kipu Pay de aquí en adelante."}, "sector": "cobros digitales y registro de ventas para pequeños comerciantes de Cochabamba", "porter": {"t": "Un martes de octubre, Daniela Rocha, cofundadora de Kipu Pay, decidió recorrer La Cancha de punta a punta antes de reunirse con sus inversionistas. Quería ver con sus propios ojos lo que los números le venían diciendo. En el pasillo de abarrotes contó, en un solo puesto, cuatro códigos QR pegados uno al lado del otro: el de Kipu Pay, el de PagoYa, el de QRápido y el de la billetera del banco más grande del país. «Yo uso el que me pida el cliente», le dijo doña Felicidad mientras despachaba arroz. «Si mañana sale otro, también lo pego; imprimir un QR no cuesta nada».\n\nHace dos años Kipu Pay estaba prácticamente sola en el mercado. Hoy PagoYa y QRápido recorren los mismos pasillos con promotoras que regalan mandiles y bolsas con su logo, y la billetera del banco no cobra ninguna comisión durante el primer año, porque al banco le interesa captar ahorristas. En la última feria del sector, los representantes de las cuatro empresas casi no se saludaron: cada mes alguna anuncia una rebaja o un premio por afiliarse, y las demás responden en pocos días. Nadie gana mucho, pero nadie quiere quedarse atrás.\n\nLas comerciantes, además, no deciden solas. Cada sector del mercado tiene su asociación y su dirigente, y las decisiones importantes se toman en asamblea. Cuando la dirigente de las verduleras dijo que «la comisión de Kipu es muy alta», más de cuarenta puestos dejaron de usar la app en una semana, y solo volvieron cuando Kipu Pay aceptó rebajar la comisión para todo el sector. Daniela lo resume así: «No negociamos con una señora; negociamos con doscientas».\n\nPara que un cobro QR funcione, Kipu Pay necesita que un banco lo procese y le liquide el dinero. En Bolivia solo dos bancos ofrecen ese servicio a empresas tecnológicas pequeñas, y ambos tienen contratos casi idénticos: el precio por transacción lo ponen ellos, lo revisan cada año y no aceptan contraofertas. Cuando Kipu Pay pidió una rebaja por volumen, la respuesta fue una carta de una sola línea: «Las tarifas vigentes se aplican a todos nuestros clientes».\n\n¿Podría aparecer otro competidor? Un emprendedor lo tendría difícil: necesita un banco dispuesto a procesar sus cobros, cumplir los requisitos del regulador para manejar pagos y al menos un año de desarrollo y pruebas; Kipu Pay tardó dieciocho meses en lanzar su app. En cambio, para un banco o una empresa de telefonía que ya tiene licencia, sistemas y millones de clientes, sumar una billetera es cuestión de meses, y en el mercado se comenta que una telefónica ya está probando la suya.\n\nAl final del recorrido, Daniela se quedó mirando la fila de una casera que vendía queso. De diez clientes, ocho pagaron con billetes. «El efectivo es rápido, no falla cuando no hay señal y nadie se entera de cuánto vendo», le explicó la casera, que anota sus ventas en un cuaderno de tapa azul desde hace quince años. Para muchas vendedoras, el cuaderno y la calculadora siguen siendo suficientes para saber cómo les fue en el día."}}, {"e": "Rueda", "r": "Pasanaku digital", "c": "El Alto", "h": "Rueda es una app alteña que digitaliza el pasanaku, el ahorro rotativo que muchas familias bolivianas organizan entre vecinos, amigos o compañeros de trabajo: cada mes todos aportan una cuota y uno de los integrantes recibe el pozo completo. El problema de siempre es que alguien deja de pagar después de cobrar. Rueda registra los aportes, envía recordatorios, ordena los turnos según el historial de cumplimiento de cada persona y deposita el pozo a través de un banco socio. Hoy hay grupos activos, sobre todo de comerciantes y trabajadores de El Alto, que suman unos 400 turnos pagados al mes. La app es gratuita para los participantes; el organizador del grupo paga una comisión por cada turno.", "post": ["Comisión facturada al organizador por cada turno pagado", "Sueldos del equipo de cobranza y del desarrollador", "Verificar la identidad de cada nuevo participante", "Gremios de comerciantes que recomiendan Rueda a sus afiliados", "Asesor que llama al organizador cuando un integrante se atrasa", "Base de datos con el historial de pago de miles de participantes", "Banco socio que custodia los aportes y deposita el pozo", "Los fundadores ganaron un concurso universitario de emprendimiento en 2024", "Personas que quieren ahorrar en grupo, pero desconfían de quien ya cobró", "Stand en la Feria 16 de Julio los jueves y domingos", "Pago opcional de los participantes para entrar a un fondo de respaldo ante atrasos", "Registro transparente de quién pagó y quién no, visible para todo el grupo", "Hacer seguimiento y cobranza cuando alguien se atrasa", "Turnos ordenados según el historial de cumplimiento de cada integrante", "Organizadores de pasanakus entre comerciantes y trabajadores de El Alto", "Algoritmo de puntaje de cumplimiento entrenado con tres años de rondas", "Insignia de «buen pagador» que todo el grupo puede ver", "Invitación por enlace de WhatsApp que el organizador comparte con su grupo", "El pasanaku se practica en Bolivia desde hace muchas décadas", "Pago a un proveedor externo por cada verificación de identidad"], "sorp": {"de": "Directorio de Rueda", "asunto": "Cambio de rumbo", "t": "Equipo: nuestros abogados nos advirtieron que, con la nueva normativa financiera, guardar dinero de terceros —aunque sea por unos días, como hacemos con los aportes del pasanaku— exige una licencia que no podremos obtener en mucho tiempo. Desde el próximo mes ya no podremos tocar el dinero de nadie. Al mismo tiempo, dos gremios grandes de El Alto nos pidieron otra cosa: que les ayudemos a organizar y controlar sus propios fondos rotativos, con sus propias reglas, porque llevan décadas haciéndolo en cuadernos y siempre terminan en peleas. Y una aseguradora nos ofreció crear juntos un seguro que cubra el pozo cuando alguien deja de pagar. Creemos que Rueda tiene que dejar de ser una app de pasanakus entre amigos. ¿Cómo quedaría nuestro modelo?"}, "sector": "herramientas digitales para el ahorro en grupo en El Alto", "porter": {"t": "Marco Quispe, fundador de Rueda, suele decir que su competencia más dura no es una app, sino una libreta. En El Alto casi todos participan en algún pasanaku: los comerciantes de la feria 16 de Julio, los trabajadores de una misma fábrica, las vecinas de una junta vecinal. Una encuesta que Rueda hizo a 300 personas en la feria mostró que el 85 % participa en al menos un pasanaku, pero solo el 6 % usa alguna app para organizarlo. Los demás se arreglan con un cuaderno, un grupo de WhatsApp y la palabra de los vecinos. «Si alguien no paga, todo el barrio se entera, y eso es peor que cualquier multa», le dijo una participante.\n\nEn los últimos dos años aparecieron dos apps parecidas a Rueda: Turnito, creada por estudiantes de una universidad paceña, y AhorrApp, de un grupo de programadores de Cochabamba. Ninguna ha pasado de unos cientos de usuarios y ambas se actualizan muy de vez en cuando. Marco las sigue de cerca, pero reconoce que hasta ahora no le han quitado clientes: cada una se quedó con su pequeño grupo de conocidos y ninguna ha bajado precios.\n\nLo que sí le preocupa es lo fácil que es copiar la idea. Rueda no tiene patentes ni tecnología difícil de imitar: un programador con experiencia puede armar una app básica de turnos y recordatorios en pocas semanas, y no se necesita ninguna licencia mientras no se toque el dinero. En una feria de una incubadora, tres equipos de estudiantes presentaron proyectos casi idénticos. Además, un banco mediano anunció en la prensa que el próximo año lanzará «pasanakus digitales» dentro de su propia app, para sus cientos de miles de clientes.\n\nLos organizadores de grupos grandes saben muy bien lo que valen. Don Teodoro, dirigente de un gremio de transportistas, organiza un pasanaku de 120 participantes. Cuando Rueda subió la comisión, pidió una reunión: «O me cobran la mitad, o me llevo a mi gente a otra app o volvemos al cuaderno». Rueda aceptó, porque perder a Teodoro significaba perder 120 usuarios de un día para otro. Hoy, cinco organizadores concentran casi el 40 % de los turnos de la app.\n\nPara funcionar, Rueda necesita enviar mensajes de texto y verificar la identidad de los nuevos participantes. Ambos servicios los contrata por internet. Hay decenas de empresas, nacionales y extranjeras, que los ofrecen, y cambiar de una a otra toma una tarde. El año pasado Rueda cambió dos veces de proveedor de mensajes y en ambas ocasiones consiguió un precio menor; los vendedores incluso la llaman para ofrecerle descuentos."}}, {"e": "FactoYa", "r": "Plataforma de adelanto de facturas", "c": "Santa Cruz", "h": "FactoYa es una plataforma cruceña que ayuda a pymes proveedoras de grandes empresas a cobrar antes. Una pyme que vende a un supermercado o a una agroindustria suele esperar de 60 a 90 días para cobrar su factura y, mientras tanto, no tiene efectivo para pagar sueldos ni comprar insumos. En FactoYa la pyme sube su factura, la plataforma verifica con el comprador que la deuda es real y una empresa de factoraje autorizada por ASFI le adelanta el dinero en 48 horas. FactoYa no presta dinero propio: cobra a la pyme una comisión por gestionar cada factura. Hoy gestiona unas 300 facturas al mes y trabaja con 6 grandes compradores que confirman las facturas en línea.", "post": ["Para el comprador: proveedores estables sin tener que acortar sus plazos de pago", "Liquidez en 48 horas sin hipotecar bienes ni hacer trámites en el banco", "Pymes que venden a supermercados y agroindustrias y cobran a 60–90 días", "Confirmar con el comprador que cada factura es real y está aprobada", "Ejecutivo de cuenta asignado a cada pyme", "Comisión más baja y aprobación preferente para pymes con buen historial", "Tarifa anual que pagan los compradores por el panel de gestión de proveedores", "Empresa de factoraje autorizada por ASFI que pone el dinero del adelanto", "Cámara de Industria que recomienda la plataforma a sus asociados", "Presentaciones en eventos de la Cámara de Industria para proveedores", "Equipo de analistas de riesgo con experiencia bancaria", "Grandes compradores que necesitan proveedores con liquidez para no quedarse sin abastecimiento", "Evaluar el riesgo de la pyme antes de aprobar el adelanto", "La oficina de FactoYa funciona en un coworking de Equipetrol", "Sistema de verificación de facturas conectado con los compradores", "Comisión facturada a la pyme por cada factura adelantada", "Plataforma web donde la pyme sube sus facturas y sigue el estado del adelanto", "Desarrollo y seguridad informática de la plataforma", "Santa Cruz concentra gran parte de la agroindustria del país", "Sueldos de ejecutivos de cuenta y analistas de riesgo"], "sorp": {"de": "Directorio de FactoYa", "asunto": "Hay que replantear FactoYa", "t": "Equipo: la empresa de factoraje que pone el dinero de cada adelanto nos comunicó que, desde el próximo trimestre, solo financiará facturas de más de Bs 50.000, y entre nuestras pymes casi ninguna llega a ese monto. Al mismo tiempo, el supermercado más grande de Santa Cruz nos dijo algo que nos hizo pensar: no le preocupa tanto que sus proveedores cobren antes; le preocupa no enterarse a tiempo cuando un proveedor está por quebrar y quedarse con las góndolas vacías. Y muchas pymes nos preguntan si podemos ayudarlas a ordenar sus números para que un banco les preste directamente. Tenemos que replantear FactoYa desde la raíz."}, "sector": "servicios financieros para pymes proveedoras en Santa Cruz", "porter": {"t": "Cuando Andrea Justiniano fundó FactoYa, adelantar facturas era un servicio casi desconocido entre las pymes cruceñas. Cinco años después, el panorama cambió por completo. Los tres bancos más grandes del país crearon sus propios programas de «pago anticipado a proveedores», con tasas que FactoYa no puede igualar porque los bancos se financian con los depósitos de sus clientes. A eso se sumaron dos plataformas: Liquidez+, respaldada por un grupo empresarial, y CobroHoy, que inunda las redes sociales con publicidad y promete «el adelanto más barato de Santa Cruz». En el último año, las comisiones del sector bajaron casi a la mitad y FactoYa tuvo que rebajar las suyas tres veces.\n\nLas pymes se dieron cuenta rápidamente de que tienen opciones. La mayoría tiene cuenta en varios bancos y está registrada en más de una plataforma. El gerente de una empresa de envases le contó a Andrea que, antes de subir una factura, la manda por WhatsApp a tres plataformas y elige la que le responde con la comisión más baja: «Es como cotizar un flete; me quedo con el más barato». No hay contratos de permanencia ni costos de cambio: cada factura es una decisión nueva.\n\nNo todas las pymes necesitan una plataforma para resolver su falta de liquidez. Algunas negocian directamente con el supermercado un pago a 15 días a cambio de un pequeño descuento; otras piden prestado a familiares o usan la tarjeta de crédito de la empresa. Sin embargo, estas alternativas no sirven para todas: los supermercados grandes aceptan pocas excepciones a sus plazos, y los préstamos familiares rara vez alcanzan para facturas grandes.\n\nA pesar de la competencia, crear una empresa nueva en este negocio no es sencillo. Una plataforma que adelanta dinero necesita capital propio importante o un socio financiero regulado que lo ponga, cumplir con las normas de prevención de lavado de dinero y, sobre todo, ganarse la confianza de los grandes compradores, que solo confirman facturas a empresas que conocen. Andrea tardó dos años en conseguir que el primer supermercado aceptara confirmar facturas en línea. En los últimos tres años, cuatro proyectos parecidos intentaron entrar y ninguno sobrevivió más de un año.\n\nEl punto más delicado está en el dinero que FactoYa adelanta. FactoYa no presta fondos propios: depende de empresas de factoraje autorizadas, y en Santa Cruz solo dos trabajan con plataformas. Ellas fijan la tasa, el monto mínimo por factura y qué pymes aceptan. El año pasado, una de ellas subió su tasa de un día para otro y FactoYa no tuvo más remedio que aceptarla: sin ese dinero, no hay adelantos."}}, {"e": "Ayni Preventa", "r": "Preventa de quinua de cooperativas", "c": "Oruro", "h": "Ayni es una plataforma de preventa que conecta a cooperativas quinueras del sur de Oruro con familias de La Paz, Cochabamba y Santa Cruz. Los productores necesitan dinero antes de la siembra, cuando nadie les compra, y terminan vendiendo barato a intermediarios. En Ayni las familias pagan hoy una caja de quinua real orgánica que recibirán después de la cosecha, a mejor precio que en el supermercado. Con esos pagos anticipados las cooperativas financian la siembra sin endeudarse. Ayni cobra a la cooperativa una comisión por cada caja vendida; en promedio vende 1.000 cajas al mes y trabaja con 4 cooperativas.", "post": ["Capital para la siembra sin intereses ni garantías", "Certificadora orgánica que audita a las cooperativas", "Quinua real orgánica más barata que en el supermercado, pagando por adelantado", "Visita anual a la cosecha para los clientes más frecuentes", "Controlar la calidad de la quinua antes de empacarla", "Relación de confianza construida con 4 cooperativas del sur de Oruro", "Familias urbanas que buscan alimentos orgánicos y de origen conocido", "Sello de trazabilidad que muestra de qué parcela viene cada caja", "Coordinar el acopio, el empaque y el transporte de las cajas", "Comisión facturada a la cooperativa por cada caja vendida en preventa", "Fletes de transporte desde Oruro hasta cada ciudad", "Venta de cajas de regalo corporativas para fin de año", "La quinua se cultiva en el altiplano desde hace miles de años", "Empaque y etiquetado de cada caja", "Fotos y videos del avance del cultivo enviados a cada familia", "Cooperativas quinueras que necesitan capital antes de la siembra", "Bolivia es uno de los mayores exportadores de quinua del mundo", "Tienda en línea con pago QR para reservar cajas", "Puntos de entrega en las ferias ecológicas de cada ciudad", "Empresa de transporte interdepartamental que lleva las cajas"], "sorp": {"de": "Directorio de Ayni Preventa", "asunto": "Después de la helada", "t": "Equipo: este año la helada arruinó buena parte de la cosecha de dos de nuestras cuatro cooperativas, y tuvimos que devolver el dinero a cientos de familias que habían pagado por adelantado. Muchas nos escribieron molestas y nos dijeron que no volverán a esperar meses por una caja. Al mismo tiempo, un importador de Alemania nos contactó: quiere comprar quinua orgánica con trazabilidad por parcela, en contenedores, y pagar un precio fijo por adelantado si le garantizamos el volumen. Y una cadena de restaurantes de La Paz quiere ofrecer platos con quinua de origen certificado. Tenemos que reinventar Ayni."}, "sector": "venta de quinua orgánica de origen trazable", "porter": {"t": "Hace quince años, la quinua real era el «grano de oro» de los Andes y los precios internacionales subían cada temporada. Hoy, Lucía Mamani, gerente de Ayni Preventa, abre cualquier informe del sector y encuentra la misma conclusión: hay más quinua que nunca y cada vez más gente vendiéndola. Perú supera a Bolivia en producción y vende más barato gracias a cultivos en valles con riego y varias cosechas al año. En un supermercado de Santa Cruz, Lucía contó diecisiete marcas de quinua en la misma góndola, desde grandes exportadoras hasta pequeñas marcas de comunidades, varias con fotos de llamas y la palabra «orgánica» en letras grandes. Las promociones de «lleve tres, pague dos» son cada vez más frecuentes.\n\nEntrar a este negocio no exige demasiado. Basta tener contactos en el altiplano, comprar algunos quintales, mandar a imprimir bolsas con una etiqueta atractiva y abrir una página en redes sociales. Ni siquiera hace falta planta propia: hay empresas que lavan, procesan y empacan la quinua por encargo. Lucía calcula que en la última temporada nacieron al menos ocho marcas nuevas en La Paz y Cochabamba; algunas desaparecen al año siguiente, pero siempre aparecen otras.\n\nDel lado de las familias, la situación es mixta. Cada familia compra poco —una o dos cajas por temporada— y podría cambiar de marca con un clic. Sin embargo, el 60 % de los clientes de Ayni repite cada año y muchos le escriben a «su» productor por WhatsApp para preguntarle cómo va la siembra. «Yo sé de qué parcela viene mi quinua; eso no me lo da el supermercado», comentó una clienta en una encuesta. Otros, en cambio, solo buscan el precio más bajo y se van con la primera oferta.\n\nLo que más preocupa a Lucía es el precio. Cuando la quinua sube, muchos hogares la reemplazan por arroz, fideo, avena o trigo, que cuestan entre la mitad y la tercera parte. Los nutricionistas siguen recomendándola, pero en una canasta familiar ajustada la quinua es de lo primero que se recorta. Durante la última subida de precios, las ventas de Ayni cayeron un 30 % en dos meses.\n\nFinalmente están las cooperativas. Para vender quinua orgánica certificada, Ayni depende de productores que tengan la certificación, y en el sur de Oruro y Potosí son pocas las cooperativas que la mantienen, porque renovarla cada año es caro. Desde que llegaron los importadores europeos, que compran cosechas enteras y pagan por adelantado en euros, las cooperativas eligen a quién venderle. «Nos quieren mucho —dice Lucía—, pero cuando llega el contenedor alemán, primero lo llenan a él»."}}, {"e": "Kontu", "r": "Facturación electrónica para independientes", "c": "Cochabamba", "h": "Con la ampliación de la facturación electrónica en línea, miles de profesionales independientes y pequeños negocios de Cochabamba —odontólogos, arquitectos, talleres, tiendas de barrio— deben emitir sus facturas desde un sistema y llevar sus libros de compras y ventas. Muchos no saben hacerlo y pagan multas por errores. Kontu es una app que emite facturas desde el celular en menos de un minuto, arma automáticamente el libro de ventas y avisa cuándo vence cada declaración del IVA y del IT. Cobra una suscripción mensual de Bs 49; hoy tiene 1.800 suscriptores y su sistema está certificado por el SIN.", "post": ["Webinars gratuitos sobre facturación electrónica que atraen nuevos usuarios", "Responder las consultas tributarias de los suscriptores", "Pequeños negocios de barrio que no tienen contador de planta", "Colegios de odontólogos y de arquitectos que recomiendan Kontu", "Tutoriales en video dentro de la app para resolver dudas solo", "Cochabamba tiene un clima templado casi todo el año", "Pago mensual de los servidores en la nube", "El SIN es la entidad que administra los impuestos nacionales", "Suscripción mensual facturada a cada usuario", "Equipo de contadores y programadores", "Profesionales independientes que deben emitir facturas electrónicas", "Cobro adicional por cada declaración que Kontu prepara para el usuario", "Actualizar el sistema cada vez que cambia la normativa tributaria", "Evitar multas gracias a los avisos de vencimiento del IVA y del IT", "Sistema de facturación certificado por el SIN", "Chat de soporte atendido por contadores, en horario extendido", "App móvil y versión web para emitir facturas", "Sueldos de los contadores de soporte y de los programadores", "Proveedor de nube que aloja los servidores", "Emitir una factura válida desde el celular en menos de un minuto"], "sorp": {"de": "Directorio de Kontu", "asunto": "Facturar ya no es el negocio", "t": "Equipo: el Servicio de Impuestos lanzó su propia app gratuita para emitir facturas desde el celular, y en solo un mes perdimos casi un tercio de nuestros suscriptores. Nos queda claro que facturar ya no es un problema por el que la gente quiera pagar. Pero los que se quedaron nos dicen otra cosa: su verdadero dolor es no saber cuánto impuesto van a pagar, cómo declarar sin errores y qué hacer cuando les llega una notificación. Además, tres estudios contables nos propusieron trabajar juntos, porque tienen más clientes de los que pueden atender. Kontu tiene que dejar de ser «una app para facturar». Ayúdanos a replantearla."}, "sector": "servicios digitales de facturación y apoyo tributario para independientes en Cochabamba", "porter": {"t": "En la oficina de Kontu hay una pizarra con el título «¿Contra quién competimos?». Al principio tenía un solo nombre; hoy está llena. Gabriel Torrico, su fundador, cuenta al menos cinco apps privadas que hacen casi lo mismo que Kontu: FacturaYa, Tributo, MiFactura, ContaFácil y una que llegó desde Santa Cruz este año. Todas prometen «facturar en un minuto». En los últimos seis meses tres de ellas bajaron sus precios, una lanzó un plan gratuito con publicidad y otra regala dos meses a quien se cambie desde otra app.\n\nSin embargo, la competencia más fuerte no siempre es otra app. El Servicio de Impuestos ofrece un portal gratuito para emitir facturas y presentar declaraciones. Es menos amigable y a veces se satura en los días de vencimiento, pero funciona y no cuesta nada. Y en cada barrio de Cochabamba hay un contador que, por Bs 100 a Bs 200 al mes, se encarga de todo: emite las facturas, presenta las declaraciones y responde a las notificaciones. «Mi contador me conoce desde hace diez años; ¿para qué voy a usar una app?», le respondió una odontóloga a una vendedora de Kontu.\n\nLanzar una nueva app de facturación no es tan sencillo como parece. El sistema debe ser certificado por el Servicio de Impuestos, un proceso de pruebas que puede tardar entre seis meses y un año, y cada vez que cambia la normativa hay que actualizarlo en plazos muy cortos. Dos de los competidores de Kontu llevan meses esperando su certificación. Aun así, el mercado es tentador: cada año aparecen uno o dos proyectos nuevos, sobre todo de empresas de software que ya tienen experiencia con sistemas contables.\n\nLos usuarios de Kontu son profesionales independientes y pequeños negocios. Cada uno paga poco —entre Bs 49 y Bs 99 al mes— y puede cancelar su suscripción en cualquier momento, sin multas; algunos lo hacen cada vez que ven una promoción. Pero cada uno decide por su cuenta: no se organizan, no negocian precios y la mayoría no se toma el trabajo de migrar todo su historial de facturas a otra app si no tiene un problema grave.\n\nPara funcionar, Kontu necesita servidores en la nube y programadores. Hay decenas de proveedores de nube compitiendo con precios cada vez más bajos, y Gabriel cambió de proveedor el año pasado en un fin de semana. Contratar programadores tampoco es difícil: cada semestre egresan cientos de ingenieros de sistemas en Cochabamba, y muchos buscan su primer empleo."}}, {"e": "AgroClima", "r": "Corredor digital de seguro climático", "c": "Punata (Cochabamba)", "h": "En el valle alto de Cochabamba miles de familias viven de la leche. Una helada o una sequía destruye el forraje y obliga a vender vacas a mal precio. AgroClima es un corredor de seguros digital que, junto con una aseguradora autorizada, ofrece un seguro paramétrico: si la estación meteorológica de la zona registra una helada o una sequía por encima de cierto límite, el productor recibe el pago automáticamente, sin inspector y sin trámites. AgroClima instaló 12 estaciones meteorológicas propias y cobra a la aseguradora una comisión de intermediación por cada póliza vigente. Hoy hay 3.500 pólizas activas; la prima se descuenta del pago quincenal que la planta lechera hace a cada productor.", "post": ["Familias productoras de leche del valle alto con 3 a 10 vacas", "La raza Holstein es la más común en los establos de la zona", "Mantener y calibrar las estaciones meteorológicas", "Venta de datos climáticos a la gobernación y a los municipios", "Asistencia personal en quechua cuando se activa un pago", "El valle alto es conocido por su chicha", "Pago automático cuando la estación registra helada o sequía, sin inspector", "Comisión de intermediación que paga la aseguradora por cada póliza vigente", "Planta lechera que descuenta la prima del pago quincenal por la leche", "Red de 12 estaciones meteorológicas propias", "Aseguradora autorizada por la APS que asume el riesgo", "Afiliar productores y registrar sus pólizas", "Alerta por SMS de helada para que el productor proteja su forraje", "Productores que entregan su leche a una planta industrial", "Programa en la radio comunitaria sobre clima y seguro", "Sueldos de los técnicos de campo", "Modelo estadístico que fija los límites de helada y sequía", "Técnicos de campo que explican el seguro en las reuniones de la asociación", "Proteger el ingreso de la familia aunque se pierda el forraje", "Mantenimiento y repuestos de las estaciones"], "sorp": {"de": "Directorio de AgroClima", "asunto": "¿Y si nuestro negocio nunca fue el seguro?", "t": "Equipo: la aseguradora con la que trabajamos decidió salir del seguro agrícola después de un año con muchas heladas; ya no tendremos pólizas que ofrecer. Pero no todo son malas noticias. La gobernación quiere usar los datos de nuestras estaciones para su sistema de alerta temprana, una empresa lechera grande nos pidió ayudarle a anticipar cuánta leche recibirá cada mes según el clima, y muchos productores nos dicen que las alertas por SMS les sirven más que el seguro, porque les permiten proteger el forraje a tiempo. Tal vez nuestro negocio nunca fue el seguro. Necesitamos que nos propongas cómo seguir."}, "sector": "información climática para el agro en el valle alto de Cochabamba", "porter": {"t": "Rodrigo Vargas, ingeniero agrónomo y fundador de AgroClima, todavía recuerda la helada de junio de 2022, cuando en una sola noche se perdió el forraje de cientos de familias de Punata y Cliza. Esa noche nació la idea de instalar estaciones meteorológicas propias. Hoy AgroClima tiene doce estaciones distribuidas en el valle alto y siete años de registros de temperatura, humedad y lluvia, hora por hora. En toda la zona, el servicio meteorológico nacional tiene una sola estación, ubicada en el pueblo, y sus pronósticos se publican para toda la región. Ninguna otra empresa ofrece información tan local: cuando un municipio quiere saber qué comunidades estuvieron en riesgo de helada la semana pasada, AgroClima es prácticamente la única que puede responder.\n\nReplicar lo que hizo AgroClima no es fácil. Cada estación cuesta varios miles de dólares, hay que negociar con las comunidades el lugar donde se instala, mantenerla y calibrarla, y sobre todo hay que acumular años de datos para que los pronósticos sean confiables: un modelo con un año de registros se equivoca mucho más que uno con siete. Una ONG intentó instalar una red parecida en el valle de Tarija y la abandonó a los tres años, cuando se acabó el financiamiento.\n\nEl problema de AgroClima está en quienes le pagan. Son muy pocos: la gobernación, dos municipios y dos plantas lecheras. Entre la gobernación y la planta lechera más grande suman el 65 % de los ingresos. Cada contrato se negocia una vez al año y los funcionarios lo saben: el año pasado, la gobernación pidió un descuento del 20 % «por restricciones presupuestarias», con la advertencia de que podría «evaluar otras alternativas». AgroClima aceptó.\n\nLos productores, por su parte, tienen sus propias formas de anticipar el clima. Muchos siguen leyendo las señales de la naturaleza —el canto de ciertas aves, el color del cielo al atardecer, la floración de algunas plantas— y escuchan el pronóstico de la radio local. Los más jóvenes consultan gratis las aplicaciones del clima del celular, aunque sus pronósticos son para toda la ciudad de Cochabamba y fallan seguido en el valle. «Cuando la app dice que no va a helar y hiela, uno vuelve a mirar el cielo», explica un productor de Cliza.\n\nPor último, todas las estaciones de AgroClima son de una misma marca, fabricada en Estados Unidos, porque son las únicas compatibles con su sistema de datos. Hay un solo distribuidor en Sudamérica. Los repuestos tardan entre dos y tres meses en llegar y los precios se ajustan cada año sin aviso. Cambiar de marca significaría reemplazar las doce estaciones y perder la compatibilidad con los registros históricos."}}, {"e": "PensionPay", "r": "Cobro digital de pensiones escolares", "c": "Sucre", "h": "En Sucre los colegios privados cobran las pensiones en ventanilla o por depósito, y la secretaria pasa horas conciliando pagos. Cada mes, entre el 15 % y el 25 % de las familias se atrasa. PensionPay es una plataforma que permite a los colegios cobrar las pensiones con QR, envía recordatorios automáticos a los padres, emite la factura al instante y muestra al director un tablero con quién pagó y quién no. El colegio paga a PensionPay una comisión por cada pensión cobrada; para los padres el servicio es gratuito. Trabajan con 14 colegios y cobran unas 9.000 pensiones al mes.", "post": ["Plataforma de cobros integrada con el sistema de facturación", "Recordatorios amables a los padres antes del vencimiento", "Módulo de inscripciones en línea que se cobra aparte", "Costo que cobra el banco por cada transacción QR", "Colegios privados medianos de Sucre, de 300 a 1.200 estudiantes", "Sueldos del equipo de implementación y soporte", "Emitir las facturas y conciliar los pagos del mes", "Integrar la plataforma con el sistema administrativo de cada colegio", "Capacitación inicial a la secretaria y soporte telefónico", "Padres de familia que pagan pensiones mensuales", "Sucre es la capital constitucional de Bolivia", "Para los padres: pagar con QR desde casa y recibir la factura al instante", "Enlace de pago que el padre recibe por WhatsApp cada mes", "El fundador fue profesor de matemáticas durante diez años", "Presentación al director y a la junta escolar de cada colegio", "Asociación de colegios privados de Chuquisaca", "Comisión facturada al colegio por cada pensión cobrada", "Conciliación automática: la secretaria ya no revisa depósitos uno por uno", "Banco que procesa los pagos QR", "Cartera de colegios clientes que sirve de referencia para vender a otros"], "sorp": {"de": "Directorio de PensionPay", "asunto": "Cobrar ya no nos hace distintos", "t": "Equipo: se anunció que, desde el próximo año, los colegios privados deberán reportar cada mes los pagos de pensiones a un sistema oficial, y muchos directores no tienen idea de cómo hacerlo. Al mismo tiempo, dos bancos lanzaron cobros QR gratuitos para colegios y ya se llevaron a cuatro de nuestros clientes. Y en las reuniones con padres escuchamos siempre lo mismo: muchas familias se atrasan no porque no quieran pagar, sino porque en febrero, con la inscripción, los uniformes y los útiles, no les alcanza. Cobrar ya no es lo que nos hace distintos. Tenemos que pensar qué será PensionPay."}, "sector": "cobros y gestión administrativa para colegios privados de Sucre", "porter": {"t": "Sucre tiene alrededor de cuarenta colegios privados medianos. Mariela Arancibia, fundadora de PensionPay, conoce a casi todos sus directores, y ellos se conocen entre sí. Una vez al mes se reúnen en la asociación de colegios privados, y en cada reunión aparece algún tema sobre sistemas y proveedores: qué usan, cuánto pagan, qué problemas tienen. Cuando un colegio consiguió que PensionPay le rebajara la comisión, en la reunión siguiente otros seis directores pidieron lo mismo. «Aquí no le vendes a un colegio; le vendes a la asociación», resume Mariela. Si un director se queja en la reunión, la noticia llega a todos antes del fin de semana.\n\nPensionPay ya no está sola. Dos bancos lanzaron cobros QR gratuitos para colegios, con conciliación básica incluida, y sus ejecutivos visitan los colegios ofreciendo además créditos para infraestructura. Tres empresas de software de La Paz y Santa Cruz venden sistemas académicos completos —notas, asistencia, comunicación con padres— que ya incluyen un módulo de cobros sin costo adicional. En el último año, PensionPay perdió cuatro colegios: dos se fueron con un banco y dos con un sistema académico.\n\nAl mismo tiempo, muchos colegios siguen cobrando como hace veinte años: en ventanilla, con recibo talonario y una planilla de Excel que la secretaria actualiza cada tarde. Para varios directores ese sistema funciona «bien», y lo que más valoran es que no les cuesta nada. Mariela calcula que la mitad de los colegios de Sucre no siente que necesite ningún sistema de cobros.\n\nCrear una plataforma de cobro no es técnicamente difícil para una empresa de software: las herramientas para conectarse a los bancos están disponibles y bien documentadas. Lo difícil es ganarse la confianza de un director. Nadie quiere arriesgar el dinero de las pensiones con una empresa desconocida, y los colegios suelen pedir referencias de otros colegios antes de firmar. PensionPay tardó un año entero en conseguir sus tres primeros clientes.\n\nPara procesar los pagos QR, PensionPay trabaja con un banco, pero podría hacerlo con cualquiera de los cinco que ofrecen el servicio en Sucre. De hecho, el año pasado otros dos bancos la buscaron para ofrecerle mejores condiciones si trasladaba sus cobros, y PensionPay usó esas ofertas para conseguir una rebaja con su banco actual."}}, {"e": "ReciclaBs", "r": "Recolección de reciclables con incentivos", "c": "Cochabamba", "h": "En Cochabamba se recicla una parte mínima de la basura domiciliaria. ReciclaBs es una app que premia a los hogares por separar plástico, cartón y vidrio: un recolector en triciclo pasa por la casa el día programado, pesa el material y acredita puntos que se cambian por saldo de telefonía o descuentos en tiendas aliadas. ReciclaBs clasifica y compacta el material en su centro de acopio y lo vende por kilo a empresas recicladoras; algunas empresas también patrocinan el programa para mostrar resultados ambientales. Hoy vende unos 40.000 kilos al mes, con 9 recolectores que antes trabajaban de manera informal.", "post": ["Gobierno municipal que autoriza las rutas de recolección", "Alquiler del centro de acopio y energía eléctrica de la compactadora", "Ranking mensual de los barrios que más reciclan", "Planificar las rutas de recojo por distrito", "App para programar el recojo y consultar los puntos", "Pago a los recolectores por kilo recogido", "Tiendas aliadas que aceptan los puntos como descuento", "Centro de acopio con una prensa compactadora", "Clasificar y compactar el material en el centro de acopio", "Patrocinio de empresas que financian el programa por su imagen ambiental", "El botadero de K'ara K'ara genera conflictos con los vecinos", "Venta por kilo de material clasificado a empresas recicladoras", "Recojo en la puerta de la casa y puntos canjeables por saldo o descuentos", "Hogares de la zona norte que quieren reciclar sin salir de casa", "Reporte de impacto ambiental para cada empresa patrocinadora", "El plástico PET tarda cientos de años en degradarse", "Material clasificado y compactado, con volumen constante cada mes", "Ferias ambientales en colegios y plazas para inscribir hogares", "Empresas recicladoras que necesitan material limpio y clasificado", "Nueve recolectores capacitados, cada uno con su triciclo"], "sorp": {"de": "Directorio de ReciclaBs", "asunto": "La ordenanza lo cambia todo", "t": "Equipo: la alcaldía aprobó una ordenanza: desde el próximo año, condominios, mercados y empresas grandes deberán separar sus residuos y demostrar a quién se los entregan, o pagarán multas. Al mismo tiempo, la recicladora que nos compraba el plástico cerró su planta en Cochabamba y ahora solo compra en Santa Cruz, a un precio que apenas cubre el flete. Y con los hogares pasó algo que no esperábamos: muchos se inscribieron por los puntos, pero cuando bajamos el premio, la mitad dejó de separar. Seguir igual no tiene sentido. Diseñemos de nuevo ReciclaBs."}, "sector": "gestión de residuos reciclables para grandes generadores en Cochabamba", "porter": {"t": "La nueva ordenanza municipal cambió el negocio de un día para otro. Desde el próximo año, condominios, mercados y empresas grandes deberán separar sus residuos y presentar cada trimestre un certificado que demuestre a quién se los entregaron. Las multas son altas: un condominio mediano podría pagar en una sola multa lo que gasta en un año de servicio. Lorena Cáceres, gerente de ReciclaBs, recibió en un mes más llamadas que en todo el año anterior. «No nos llaman porque quieran reciclar; nos llaman porque tienen miedo a la multa», explica.\n\nHoy, en Cochabamba, ReciclaBs es una de las muy pocas empresas autorizadas para emitir ese certificado. Los administradores lo saben: cuando preguntan precios, no tienen con quién comparar, y la mayoría firma el contrato sin pedir descuentos. Algunos condominios grandes intentaron negociar, pero terminaron aceptando la tarifa porque el plazo de la ordenanza se acercaba.\n\nLa competencia, por ahora, son solo anuncios. La empresa municipal de aseo declaró que «en algún momento» ofrecerá recolección diferenciada, pero no tiene vehículos ni presupuesto aprobado. Una empresa de limpieza de Santa Cruz vino dos veces a averiguar, aunque todavía no abrió oficina. Entrar al negocio tampoco es inmediato: hace falta una licencia ambiental, permisos municipales, un centro de acopio autorizado y vehículos adecuados, un proceso que a ReciclaBs le tomó catorce meses. Pero con la demanda creciendo, Lorena cree que en dos o tres años habrá al menos dos competidores serios.\n\nEl punto débil está en el transporte. Para recoger grandes volúmenes hacen falta camiones compactadores, y en la ciudad solo dos empresas los alquilan. Ambas subieron sus tarifas un 25 % apenas se aprobó la ordenanza, y una de ellas exige contratos mínimos de seis meses pagados por adelantado. Comprar camiones propios costaría más de lo que ReciclaBs factura en dos años.\n\nAlgunos administradores buscan atajos. Cada mañana pasan por los barrios recolectores informales que se llevan cartón y botellas sin cobrar nada, porque luego los venden. «¿No bastaría con darles la basura separada a ellos?», preguntó el administrador de un edificio. Es cierto que se llevan la basura, pero no entregan ningún certificado, así que el condominio igual quedaría expuesto a la multa. Aun así, varios edificios pequeños prefieren arriesgarse."}}, {"e": "Canasta del Valle", "r": "Mercado en línea de productos de feria", "c": "Quillacollo (Cochabamba)", "h": "Canasta del Valle es un mercado en línea que vende productos frescos de las ferias campesinas de Quillacollo y Sipe Sipe a familias de la ciudad de Cochabamba. Los productores reciben un precio mayor que el del intermediario y las familias reciben su pedido en casa al día siguiente. Canasta del Valle compra a los productores, arma los pedidos en un pequeño almacén y entrega con motociclistas propios. Gana el margen entre el precio de venta y el precio de compra, más un cargo por envío. Hoy entrega unos 900 pedidos al mes, con un ticket promedio de Bs 140.", "post": ["Asociación de productores de Sipe Sipe", "Cochabamba es conocida como la capital gastronómica de Bolivia", "Productores de hortalizas de Quillacollo y Sipe Sipe que venden a intermediarios", "Margen entre el precio de venta y el precio de compra de cada producto", "Relación de confianza con 30 productores de la feria", "Comprar en la feria y armar los pedidos cada madrugada", "Compra de productos a los productores", "Taller de motos que da mantenimiento con descuento", "Catálogo semanal y pedidos por WhatsApp Business", "Verduras frescas de la feria en la puerta de la casa al día siguiente", "Cargo por envío en cada pedido", "Sueldos de los motociclistas y combustible", "La feria de Quillacollo es una de las más antiguas del valle", "Canasta de prueba con descuento para nuevos clientes", "Entrega a domicilio con motociclistas propios", "Para el productor: mejor precio que el del intermediario y pago puntual", "Atención personalizada: la clienta puede pedir «tomates bien maduros»", "Almacén pequeño con cámara de frío", "Familias de la zona norte de Cochabamba con poco tiempo para ir al mercado", "Planificar las rutas de entrega del día"], "sorp": {"de": "Directorio de Canasta del Valle", "asunto": "El modelo ya no funciona", "t": "Equipo: la asociación de productores de Sipe Sipe firmó un contrato con una cadena de supermercados que se llevará casi toda su producción, y desde el próximo mes ya no podremos comprarles como antes. Además, los motociclistas nos piden un aumento que no podemos pagar con pedidos que cambian tanto de una semana a otra. Lo bueno: tres colegios y dos empresas nos preguntaron si podríamos llevarles fruta y verdura fresca cada semana para sus comedores y meriendas, y varias familias nos piden canastas listas para cocinar, con las recetas incluidas. El modelo tal como está ya no funciona. ¿Cómo quedaría Canasta del Valle?"}, "sector": "venta en línea de productos frescos en Cochabamba", "porter": {"t": "Hace tres años, cuando Javier Rojas empezó Canasta del Valle, casi nadie compraba verdura por internet en Cochabamba. Hoy, al abrir Facebook, Javier ve cada semana anuncios de la competencia: al menos seis emprendimientos venden frutas y verduras por WhatsApp, dos supermercados lanzaron entrega a domicilio con descuentos los miércoles y tres apps de delivery ofrecen «mandados» al mercado por Bs 10. Uno de los emprendimientos más nuevos ofrece envío gratis en todos los pedidos, aunque Javier sospecha que pierde dinero en cada entrega. En un año, el precio promedio de una canasta en línea bajó casi un 15 %.\n\nLo más preocupante es lo fácil que es empezar. No hace falta local, ni permisos especiales, ni mucho dinero: basta un celular con WhatsApp Business, una moto propia o de un familiar y conocer a algunos productores. Dos antiguos motociclistas de Canasta del Valle ahora tienen su propio emprendimiento de verduras, y una exclienta abrió otro con sus vecinas. En el último año cerraron tres emprendimientos del rubro, pero nacieron cinco nuevos.\n\nLas familias comparan todo. Antes de pedir, muchas revisan los precios del mercado de la esquina y los de la competencia, y si una semana encuentran el tomate más barato en otro lado, cambian sin pensarlo: no hay contratos ni costos por cambiar. Además, una parte importante de los clientes sigue prefiriendo ir personalmente a la feria. «Me gusta escoger mi fruta, tocarla y conversar con la casera; además, siempre me dan la yapa», explicó una clienta que dejó de comprar en línea.\n\nDel lado de los productores, Javier tiene dónde elegir. En las ferias de Quillacollo, Sipe Sipe, Vinto y Tiquipaya hay cientos de pequeños productores de hortalizas y frutas que buscan a quién vender cada semana. Es cierto que las asociaciones más grandes prefieren a los supermercados, que compran grandes volúmenes, pero ningún productor puede imponer su precio: si uno sube, el de al lado ofrece lo mismo. Cuando la asociación de Sipe Sipe dejó de venderle, Javier encontró otros proveedores en dos semanas.\n\n«Esto es como una feria», resume Javier. «Siempre hay alguien nuevo vendiendo lo mismo al lado tuyo, y el cliente se va con el que le hace precio»."}}, {"e": "AlquiPago", "r": "Gestión digital de alquileres y anticréticos", "c": "Cochabamba", "h": "En Cochabamba alquilar un departamento depende casi siempre de la confianza: el propietario no sabe si el inquilino pagará y el inquilino teme no recuperar su garantía o su anticrético. AlquiPago es una plataforma que verifica a los inquilinos, genera el contrato con firma digital, cobra el alquiler mensual con QR y lleva un historial de pagos. Para el anticrético, revisa en Derechos Reales que el inmueble no tenga hipotecas ni gravámenes antes de que el inquilino entregue su dinero. El propietario paga a AlquiPago una comisión mensual sobre el alquiler cobrado. Hoy administra 650 contratos.", "post": ["Estudiantes y jóvenes profesionales que buscan alquiler o anticrético", "Portal web con departamentos verificados", "Notaría aliada que legaliza los contratos", "Abogada de planta especializada en derecho inmobiliario", "Banco que procesa los cobros QR", "Verificar los folios reales en Derechos Reales antes de cada anticrético", "Para el inquilino: saber que el inmueble no tiene hipoteca antes de dar su anticrético", "Historial de buen inquilino que sirve de recomendación para el próximo alquiler", "Gestor que media cuando hay un conflicto entre propietario e inquilino", "Cobrar los alquileres y transferir el dinero al propietario", "Propietarios de 1 a 5 departamentos que alquilan sin inmobiliaria", "Cobro puntual del alquiler y aviso inmediato si el inquilino se atrasa", "Sueldos de la abogada y de los gestores", "Costo de trámites y certificados en Derechos Reales", "Comisión mensual facturada al propietario sobre el alquiler cobrado", "Base de datos con el historial de pagos de los inquilinos", "En Bolivia el anticrético es una figura muy común", "La fundadora estudió Derecho en la UMSS", "Publicaciones en los grupos de Facebook de alquileres de Cochabamba", "Tarifa única por cada verificación de anticrético"], "sorp": {"de": "Directorio de AlquiPago", "asunto": "El cobro de alquileres ya no es nuestro futuro", "t": "Equipo: un gran portal inmobiliario nacional empezó a ofrecer contratos digitales y cobro de alquileres gratis para atraer propietarios, y en dos meses perdimos uno de cada cuatro contratos. Pero algo nos llamó la atención: casi todas las consultas que recibimos ahora son de personas que quieren entregar su dinero en anticrético y tienen miedo de perderlo, y dos bancos nos preguntaron si podríamos verificar inmuebles para ellos antes de dar créditos. Además, nuestra abogada recibe cada semana pedidos de ayuda para recuperar anticréticos de casas que resultaron hipotecadas. El cobro de alquileres ya no es nuestro futuro. Replanteemos AlquiPago."}, "sector": "servicios de seguridad legal para alquileres y anticréticos en Cochabamba", "porter": {"t": "En Cochabamba, el anticrético es una de las formas más comunes de acceder a una vivienda: una familia entrega una suma grande de dinero —muchas veces todos sus ahorros— a cambio de vivir en un inmueble dos o tres años, y al final recupera el dinero. Cuando sale bien, es un buen negocio para ambos. Cuando sale mal, puede ser una tragedia: cada año se denuncian decenas de casos de inmuebles entregados en anticrético que estaban hipotecados, embargados o que habían sido entregados a varias familias a la vez.\n\nVerificar un inmueble no es un secreto. Cualquier persona puede ir a Derechos Reales, pagar unos bolivianos por un certificado de gravámenes y esperar unos días. Muchos lo hacen así, o le piden el favor a un abogado conocido o a un pariente que trabaja en una notaría. Según una encuesta de AlquiPago, el 70 % de quienes entregaron un anticrético el último año hizo la verificación por su cuenta o simplemente no la hizo.\n\nQuienes sí buscan un servicio profesional tienen muchas opciones. En el centro de la ciudad hay decenas de estudios de abogados que verifican inmuebles y redactan contratos, y casi todas las inmobiliarias ofrecen «anticrético seguro» como parte de su paquete. Los precios varían mucho y la competencia es dura: varios abogados publican sus tarifas en grupos de Facebook y ofrecen descuentos a quien muestre el anuncio. Pocos, sin embargo, se especializan en detectar estafas de anticrético, que es lo que AlquiPago presenta como su diferencia.\n\nAbrir una empresa como AlquiPago no requiere licencias especiales: basta un abogado, una oficina y una página web. Pero la confianza es otro asunto. Nadie entrega sus ahorros guiado por una empresa desconocida, y una sola mala experiencia contada en redes sociales puede hundir a un emprendimiento nuevo. AlquiPago tardó tres años en construir su reputación, y su fundadora, Valeria Montaño, cree que esa reputación es lo que hoy frena a los recién llegados.\n\nLos clientes de AlquiPago son de dos tipos. Las familias que van a entregar un anticrético lo hacen una o dos veces en la vida, no conocen los precios del mercado y casi nunca negocian. Los bancos y cooperativas, en cambio, son pocos, contratan decenas de verificaciones al mes y exigen tarifas muy bajas: uno de ellos pidió un descuento del 40 % para firmar un contrato anual.\n\nFinalmente, todo el trabajo de AlquiPago depende de Derechos Reales, la única fuente oficial de información sobre la propiedad de los inmuebles. Sus horarios son limitados, los certificados pueden tardar hasta una semana en temporada alta y las tarifas las fija la propia institución. Cuando su sistema se cae, AlquiPago no puede entregar ninguna verificación, y sus clientes esperan."}}];
+// Caso de ejemplo para la vista previa (no pertenece al banco real)
+const EJEMPLO = {"e": "BiciRuta (caso de ejemplo)", "r": "Alquiler de bicicletas por QR", "c": "Tarija", "h": "BiciRuta alquila bicicletas en estaciones de la ciudad de Tarija. El usuario desbloquea la bicicleta con un QR, la usa y la devuelve en cualquier estación. Cobra por minuto de uso; hoy registra unos 8.000 viajes al mes y tiene un convenio con la alcaldía para usar espacios en plazas.", "post": ["Publicidad de empresas en las bicicletas", "Estudiantes universitarios que se mueven entre el centro y la universidad", "Reparar y mantener la flota", "Mantenimiento y repuestos", "Proveedor chino de candados inteligentes", "Alcaldía que cede espacios en plazas", "Flota de 150 bicicletas con candado inteligente", "Software de gestión de estaciones", "Cobro por minuto de uso", "Sueldos de mecánicos y operadores", "App para desbloquear la bicicleta con QR", "Turistas que visitan el centro histórico", "Tarija es famosa por sus vinos", "Moverse rápido sin comprar ni guardar una bicicleta", "Pagar solo por los minutos que se usa", "Chat de soporte dentro de la app", "Estaciones visibles en plazas y en la universidad", "Puntos por viaje que se cambian por minutos gratis", "El fundador es ciclista aficionado", "Redistribuir bicicletas entre estaciones"], "sorp": {"de": "Directorio de BiciRuta", "asunto": "Cambio de planes", "t": "Equipo: la alcaldía nos retira los espacios en las plazas, pero una universidad quiere bicicletas solo para sus estudiantes dentro del campus y pagaría una cuota fija por todo el año. ¿Cómo quedaría BiciRuta?"}, "sector": "alquiler de bicicletas en Tarija", "porter": {"t": "En Tarija hay dos empresas más que alquilan bicicletas y cualquiera con algo de capital puede comprar una flota pequeña. Los estudiantes caminan, toman micro o usan su propia bicicleta. Los candados inteligentes vienen de un solo proveedor."}};
+
+const BLOQ = {
+  SO:{n:'Socios clave', i:'🤝', q:'¿Quiénes nos ayudan a operar y qué aportan?'},
+  AC:{n:'Actividades clave', i:'⚙️', q:'¿Qué debemos hacer muy bien para cumplir la propuesta?'},
+  RK:{n:'Recursos clave', i:'🧱', q:'¿Qué activos son indispensables?'},
+  PV:{n:'Propuesta de valor', i:'🎁', q:'¿Qué problema resolvemos y qué valor entregamos?'},
+  RC:{n:'Relación con clientes', i:'💬', q:'¿Cómo captamos, retenemos y atendemos a cada cliente?'},
+  CA:{n:'Canales', i:'🚚', q:'¿Cómo llegamos al cliente y le entregamos la propuesta?'},
+  SC:{n:'Segmentos de clientes', i:'👥', q:'¿Para quién creamos valor?'},
+  EC:{n:'Estructura de costos', i:'💸', q:'¿Cuáles son los costos más importantes?'},
+  FI:{n:'Fuentes de ingreso', i:'💰', q:'¿Por qué y cómo nos pagan?'}
+};
+const ORDEN = ['SC','PV','CA','RC','FI','RK','AC','SO','EC'];      // orden de lectura
+const DISPOSICION = ['SO','AC','RK','PV','RC','CA','SC','EC','FI']; // orden en la grilla
+const PAL = ['#fde68a','#fbcfe8','#bae6fd','#bbf7d0','#fed7aa','#ddd6fe'];
+const ROT = [-2.2,1.6,-1,2.4,-1.8,0.8,1.9,-2.6,1.2,-0.6];
+const BLOQUES = {1:'Arma el lienzo', 2:'La sorpresa de la gerencia', 3:'Cinco fuerzas de Porter'};
+
+/* =====================================================================
+   ASIGNACIÓN DETERMINISTA  (debe coincidir con build.py y Code.gs)
+   ===================================================================== */
+function hashCodigo(c){ let h=0; for(let i=0;i<c.length;i++) h+=c.charCodeAt(i)*(i+1); return h; }
+function asignar(c){ const h=hashCodigo(c), n=CASOS.length; return {caso:h%n, variante:Math.floor(h/n)%7}; }
+const RE_COD = /^[A-HJ-NP-Z]{2}-[2-9]{4}$/;
+
+function armarCaso(base, v){
+  return { e:base.e, r:base.r, c:base.c, h:base.h, post:base.post.slice(), sorp:base.sorp, sector:base.sector, pt:base.porter.t };
+}
+
+/* =====================================================================
+   ESTADO Y GUARDADO LOCAL
+   ===================================================================== */
+let S = null;               // estado del estudiante
+let CASO = null;            // caso armado
+let SEL = null;             // post-it seleccionado (fase 1)
+let SELA = null;            // ficha seleccionada (fase 2)
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+
+function lsGet(k){ try{ return JSON.parse(localStorage.getItem(EVAL.prefijo+k)); }catch(e){ return null; } }
+function lsSet(k,v){ try{ localStorage.setItem(EVAL.prefijo+k, JSON.stringify(v)); }catch(e){} }
+function lsDel(k){ try{ localStorage.removeItem(EVAL.prefijo+k); }catch(e){} }
+let tGuardar = null;
+function guardar(){ if(!S || S.preview) return; clearTimeout(tGuardar); tGuardar = setTimeout(()=>{ lsSet('c_'+S.codigo, S); lsSet('ultimo', S.codigo); }, 250); }
+
+/* =====================================================================
+   RED
+   ===================================================================== */
+const conSheet = () => ENVIAR_AL_SHEET && /^https:\/\/script\.google\.com\/.+\/exec$/.test(URL_SCRIPT.trim());
+async function llamar(params, metodo){
+  const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 25000);
+  try{
+    let res;
+    if(metodo==='GET'){
+      const q = Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&');
+      res = await fetch(URL_SCRIPT.trim()+'?'+q, {signal:ctrl.signal});
+    }else{
+      res = await fetch(URL_SCRIPT.trim(), {method:'POST', body:JSON.stringify(params), headers:{'Content-Type':'text/plain;charset=utf-8'}, signal:ctrl.signal});
+    }
+    return await res.json();
+  } finally { clearTimeout(t); }
+}
+
+/* =====================================================================
+   AVISOS
+   ===================================================================== */
+let tToast=null;
+function toast(msg, tipo){ const t=$('#toast'); t.textContent=msg; t.className='toast si '+(tipo||''); clearTimeout(tToast); tToast=setTimeout(()=>t.className='toast', 4200); }
+function modal(html){
+  const m=document.createElement('div'); m.className='modal'; m.innerHTML='<div class="panel">'+html+'</div>';
+  document.body.appendChild(m); m.addEventListener('click',e=>{ if(e.target===m) m.remove(); }); return m;
+}
+
+/* =====================================================================
+   INICIO
+   ===================================================================== */
+function portadaMini(){
+  const col = {SO:'#bae6fd',AC:'#ddd6fe',RK:'#ddd6fe',PV:'#fde68a',RC:'#fbcfe8',CA:'#fbcfe8',SC:'#fed7aa',EC:'#fecaca',FI:'#bbf7d0'};
+  const area = {SO:'1/1/3/3',AC:'1/3/2/5',RK:'2/3/3/5',PV:'1/5/3/7',RC:'1/7/2/9',CA:'2/7/3/9',SC:'1/9/3/11',EC:'3/1/4/6',FI:'3/6/4/11'};
+  $('#mini').innerHTML = DISPOSICION.map((b,i)=>'<i style="grid-area:'+area[b]+';background:'+col[b]+';animation-delay:'+(0.15+i*0.12)+'s">'+BLOQ[b].i+'</i>').join('');
+}
+function mostrarContinuar(){
+  const ult = lsGet('ultimo'); const st = ult ? lsGet('c_'+ult) : null;
+  if(st && st.codigo){
+    $('#contTxt').textContent = st.codigo+' · '+(st.nombre||'')+' · '+(st.empresa||'');
+    $('#continuar').classList.remove('oculto');
+    $('#btnCont').onclick = ()=>{ $('#inCodigo').value=st.codigo; $('#inNombre').value=st.nombre||''; entrar(); };
+    $('#btnNoSoy').onclick = ()=>{ $('#continuar').classList.add('oculto'); $('#inCodigo').value=''; $('#inNombre').value=''; $('#inCodigo').focus(); };
+  }
+}
+
+async function entrar(){
+  const cod = $('#inCodigo').value.trim().toUpperCase().replace(/\s/g,'');
+  const nom = $('#inNombre').value.trim().replace(/\s+/g,' ');
+  ['#inCodigo','#inNombre'].forEach(s=>$(s).classList.remove('inval'));
+  if(!RE_COD.test(cod)){ $('#inCodigo').classList.add('inval'); return toast('El código debe tener el formato AB-2345 (dos letras, guion y cuatro números).','err'); }
+  if(nom.length<6 || nom.indexOf(' ')<0){ $('#inNombre').classList.add('inval'); return toast('Escribe tus apellidos y nombres completos.','err'); }
+  if(!CASOS.length) return toast('La app no tiene casos cargados.','err');
+
+  const btn=$('#btnEntrar'); btn.disabled=true; btn.textContent='Verificando…';
+  let srv = null;
+  if(conSheet()){
+    try{ srv = await llamar({accion:'entrar', codigo:cod, nombre:nom}, 'GET'); }
+    catch(e){ srv = null; toast('Sin conexión con el servidor: puedes avanzar, tus respuestas se guardan en este dispositivo.','err'); }
+    if(srv && !srv.ok){ btn.disabled=false; btn.textContent='Ingresar'; return modal('<h3 style="margin-top:0">No puedes ingresar</h3><p>'+esc(srv.error||'Error desconocido')+'</p><div class="filab"><button class="btn" onclick="this.closest(\'.modal\').remove()">Entendido</button></div>'); }
+  }
+  btn.disabled=false; btn.textContent='Ingresar';
+
+  const a = asignar(cod);
+  let st = lsGet('c_'+cod);
+  if(!st){ st = {codigo:cod, resp:{}, enviados:{}, inicio:new Date().toISOString()}; }
+  st.nombre = nom; st.carrera = EVAL.carrera; st.caso = a.caso; st.variante = a.variante;
+  st.etiqueta = 'C'+(a.caso+1)+'-v'+(a.variante+1); st.empresa = CASOS[a.caso].e; st.preview=false;
+  st.cerrada = !!(srv && srv.ok && srv.cerrada);
+  // sincroniza con lo que ya está en el Sheet (otro dispositivo, fase reabierta, etc.)
+  if(srv && srv.ok){
+    for(const b of [1,2,3]){
+      const d = srv.datos && srv.datos[b];
+      if(srv.enviados && srv.enviados[b]){
+        st.enviados[b] = srv.enviados[b];
+        if(d){ Object.keys(st.resp).forEach(k=>{ if(k.startsWith('b'+b+'.')) delete st.resp[k]; }); Object.assign(st.resp, d); }
+      } else {
+        if(st.enviados[b]) delete st.enviados[b];          // reabierta por el docente
+        if(d) Object.keys(d).forEach(k=>{ if(!st.resp[k]) st.resp[k]=d[k]; });
+      }
+    }
+  }
+  S = st; lsSet('c_'+cod,S); lsSet('ultimo',cod);
+  iniciarApp(armarCaso(CASOS[a.caso], a.variante));
+  if(S.cerrada) toast('La evaluación está cerrada: puedes revisar y descargar lo que enviaste, pero ya no enviar.','err');
+}
+
+function verEjemplo(base, etiqueta, v){
+  S = {codigo:'EJEMPLO', nombre:'Vista previa', carrera:EVAL.carrera, etiqueta:etiqueta||'Ejemplo', empresa:base.e, resp:{}, enviados:{}, preview:true};
+  iniciarApp(armarCaso(base, v||0));
+}
+
+/* =====================================================================
+   CONSTRUCCIÓN
+   ===================================================================== */
+function ta(k, min, ph){ return '<textarea data-k="'+k+'" data-min="'+min+'" placeholder="'+esc(ph||'')+'"></textarea><div class="cont" data-cont="'+k+'"></div>'; }
+function lienzoHTML(id, fn){
+  return '<div class="lienzo" id="'+id+'">'+DISPOSICION.map(b=>'<div class="bq" data-zona="'+b+'" style="grid-area:'+b+'"><h4><span class="ico">'+BLOQ[b].i+'</span>'+BLOQ[b].n+'</h4><div class="q">'+BLOQ[b].q+'</div>'+fn(b)+'</div>').join('')+'</div>';
+}
+
+function iniciarApp(caso){
+  CASO = caso; SEL = null; SELA = null;
+  $('#inicio').classList.add('oculto'); $('#app').classList.remove('oculto');
+  $('#banPrev').classList.toggle('oculto', !S.preview);
+  $('#qNombre').textContent = S.nombre;
+  $('#qDatos').textContent = (S.preview?'':S.codigo+' · ')+caso.e+' · '+S.etiqueta;
+  const c = $('#contenido');
+  c.innerHTML = htmlCaso(caso)+htmlB1(caso)+htmlB2(caso)+htmlB3(caso)+'<div id="final"></div>';
+  $$('#contenido [data-k]').forEach(el=>{ const v=S.resp[el.dataset.k]; if(v!==undefined && el.tagName!=='BUTTON') el.value=v; });
+  $$('textarea[data-min]').forEach(contador);
+  renderF1(); renderF2(); renderF3();
+  $$('[data-enviar]').forEach(b=>b.addEventListener('click',()=>enviarBloque(+b.dataset.enviar)));
+  [1,2,3].forEach(pintarEstado);
+  progreso();
+  if([1,2,3].every(b=>S.enviados[b])) terminar(true);
+  window.scrollTo(0,0);
+}
+
+function contador(el){
+  const n = el.value.trim().length, min = +el.dataset.min, d = document.querySelector('[data-cont="'+el.dataset.k+'"]');
+  if(d){ d.textContent = n<min ? n+' / mínimo '+min+' caracteres' : n+' caracteres ✓'; d.classList.toggle('ok', n>=min); }
+}
+
+function htmlCaso(c){
+  return '<section id="sCaso" class="panel neon" style="--c:var(--caso)">'+
+    '<div class="kicker">Tu startup · '+esc(S.etiqueta)+'</div>'+
+    '<div class="ficha-caso"><h2>'+esc(c.e)+'</h2>'+
+    '<div class="filab" style="margin:4px 0 10px"><span class="chip">'+esc(c.r)+'</span><span class="chip">📍 '+esc(c.c)+'</span></div>'+
+    '<p>'+esc(c.h)+'</p></div>'+
+    '<p class="mut peq" style="margin:16px 0 0">Vuelve a esta ficha cuando lo necesites: en las tres fases se evalúa que tus respuestas correspondan a <b>'+esc(c.e)+'</b>.</p>'+
+    '</section>';
+}
+function cabBloque(n, sub){
+  return '<div class="bloque-h"><div><div class="kicker">Fase '+n+'</div><h2 class="grad">'+BLOQUES[n]+'</h2><p class="mut peq" style="margin:2px 0 0">'+sub+'</p></div>'+
+         '<div style="text-align:right"><div class="num">0'+n+'</div><span class="estado" id="est'+n+'">Pendiente</span></div></div>';
+}
+function pieBloque(n){ return '<div class="filab"><button class="btn" data-enviar="'+n+'">Enviar fase '+n+'</button><span class="mut peq" id="pie'+n+'"></span></div>'; }
+
+/* ---------------------------- FASE 1 ---------------------------- */
+function htmlB1(c){
+  return '<section id="sB1" class="panel neon" style="--c:var(--f1)">'+cabBloque(1,'Ubica los '+c.post.length+' post-its de '+esc(c.e)+' en los nueve bloques del lienzo.')+
+    '<div class="aviso" style="--c:var(--f1)"><b>Cómo se juega:</b> toca un post-it de la bandeja y luego toca el bloque donde va (con mouse también puedes arrastrarlo). Para moverlo, tócalo otra vez dentro del lienzo. '+
+    'Hay <b>dos post-its que no forman parte del modelo de negocio</b>: llévalos a la papelera.</div>'+
+    '<div class="corcho" id="tab1">'+lienzoHTML('lz1', ()=>'<div class="pila"></div>')+
+    '<div class="papelera" id="pap" data-zona="X"><b>🗑️ Papelera</b> <span style="font-size:12px;color:var(--tinta2)">· datos que no son parte del modelo de negocio</span><div class="pila"></div></div></div>'+
+    '<div class="bandeja" id="bandeja"><div class="cab"><b id="cont1"></b><span class="desliza oculto" id="desliza">Desliza para ver más →</span><div class="selbar" id="selbar"></div></div><div class="tira" id="tira" data-zona=""></div></div>'+
+    '<label class="l">A. La lógica del modelo: explica cómo '+esc(c.e)+' crea, entrega y captura valor. Conecta al menos cuatro bloques del lienzo.</label>'+
+    ta('b1.logica', 180, 'Ejemplo de conexión: segmento → propuesta de valor → canal → fuente de ingreso…')+
+    '<label class="l">B. ¿Por qué los dos post-its que mandaste a la papelera no forman parte del modelo de negocio?</label>'+
+    ta('b1.descartes', 80, 'Justifica cada descarte.')+
+    pieBloque(1)+'</section>';
+}
+
+function renderF1(){
+  const fijo = !!S.enviados[1] || !!S.cerrada;
+  const zonas = {'':$('#tira'), X:$('#pap .pila')};
+  ORDEN.forEach(b=>zonas[b]=document.querySelector('#lz1 [data-zona="'+b+'"] .pila'));
+  Object.keys(zonas).forEach(k=>zonas[k].innerHTML='');
+  let n=0;
+  CASO.post.forEach((t,i)=>{
+    const loc = S.resp['b1.p'+i]||''; if(loc) n++;
+    const el=document.createElement('button'); el.type='button'; el.className='pi'+(SEL===i?' sel':''); el.dataset.i=i;
+    el.style.setProperty('--pc',PAL[(i*5)%PAL.length]); el.style.setProperty('--rot',ROT[i%ROT.length]+'deg');
+    el.textContent=t; if(fijo) el.tabIndex=-1;
+    (zonas[loc]||zonas['']).appendChild(el);
+  });
+  $('#sB1').classList.toggle('fijo', fijo);
+  $('#cont1').textContent = '📌 '+n+' de '+CASO.post.length+' post-its ubicados';
+  $('#tira').classList.toggle('vacia', n===CASO.post.length);
+  requestAnimationFrame(renderDesliza);
+  $('#bandeja').classList.toggle('oculto', fijo);
+  document.body.classList.toggle('eligiendo', SEL!==null);
+  renderF2();
+  const sb=$('#selbar');
+  if(SEL!==null){
+    sb.innerHTML='<span class="mut">Toca el bloque donde va el post-it marcado</span>'+
+      ((S.resp['b1.p'+SEL]||'') ? '<button class="btn sec chico" id="selDev">Devolver a la bandeja</button>' : '')+
+      '<button class="btn sec chico" id="selNo">Cancelar</button>';
+    const d=$('#selDev'); if(d) d.onclick=()=>colocar(SEL,'');
+    $('#selNo').onclick=()=>{ SEL=null; renderF1(); };
+  } else sb.innerHTML='<span class="mut">Toca un post-it para elegirlo</span>';
+}
+function renderDesliza(){ const t=$('#tira'), d=$('#desliza'); if(t&&d) d.classList.toggle('oculto', !(t.scrollWidth>t.clientWidth+8) || t.scrollLeft+t.clientWidth>=t.scrollWidth-8); }
+function colocar(i, zona){
+  S.resp['b1.p'+i]=zona; SEL=null; guardar(); renderF1();
+  const z = zona ? (zona==='X' ? $('#pap') : document.querySelector('#lz1 [data-zona="'+zona+'"]')) : null;
+  if(z){ z.classList.remove('pulso'); void z.offsetWidth; z.classList.add('pulso'); }
+}
+let arr = null, sinClic = false;     // arrastre con mouse
+function zonaEn(x,y){ const el=document.elementFromPoint(x,y); const z=el && el.closest('#sB1 [data-zona]'); return z; }
+function eventosF1(){
+  const sec = $('#contenido');
+  sec.addEventListener('click', e=>{
+    if(!S || !e.target.closest('#sB1')) return;
+    if(S.enviados[1] || S.cerrada) return;
+    if(sinClic){ sinClic=false; return; }
+    const pi = e.target.closest('.pi');
+    const zona = e.target.closest('[data-zona]');
+    if(pi){
+      const i=+pi.dataset.i, enTira = !!pi.closest('#tira');
+      if(SEL===i){ SEL=null; renderF1(); return; }
+      if(SEL===null || enTira){ SEL=i; renderF1(); return; }
+    }
+    if(zona && SEL!==null){ colocar(SEL, zona.dataset.zona); }
+  });
+  sec.addEventListener('pointerdown', e=>{
+    const pi=e.target.closest('#sB1 .pi'); if(!pi || e.pointerType!=='mouse' || e.button!==0 || S.enviados[1] || S.cerrada) return;
+    arr={i:+pi.dataset.i, x:e.clientX, y:e.clientY, el:pi, g:null};
+  });
+  window.addEventListener('pointermove', e=>{
+    if(!arr) return;
+    if(!arr.g){
+      if(Math.hypot(e.clientX-arr.x, e.clientY-arr.y)<7) return;
+      const r=arr.el.getBoundingClientRect(); arr.g=arr.el.cloneNode(true); arr.g.classList.add('fantasma'); arr.g.classList.remove('sel');
+      arr.g.style.width=r.width+'px'; arr.dx=e.clientX-r.left; arr.dy=e.clientY-r.top; document.body.appendChild(arr.g); arr.el.style.opacity=.35;
+    }
+    arr.g.style.left=(e.clientX-arr.dx)+'px'; arr.g.style.top=(e.clientY-arr.dy)+'px';
+    $$('#sB1 .sobre').forEach(z=>z.classList.remove('sobre'));
+    const z=zonaEn(e.clientX,e.clientY); if(z && z.id!=='tira') z.classList.add('sobre');
+  });
+  window.addEventListener('pointerup', e=>{
+    if(!arr) return;
+    const a=arr; arr=null;
+    if(!a.g) return;
+    a.g.remove(); a.el.style.opacity=''; $$('#sB1 .sobre').forEach(z=>z.classList.remove('sobre'));
+    sinClic=true; setTimeout(()=>sinClic=false,60);
+    const z=zonaEn(e.clientX,e.clientY); if(z) colocar(a.i, z.dataset.zona);
+  });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && SEL!==null){ SEL=null; renderF1(); } if(e.key==='Escape' && SELA!==null){ SELA=null; renderF2(); } });
+}
+
+/* ---------------------------- FASE 2 ---------------------------- */
+function htmlB2(c){
+  const s=c.sorp, ini=(s.de.replace(/^Directorio de /,'')||'?').charAt(0).toUpperCase();
+  return '<section id="sB2" class="panel neon" style="--c:var(--f2)">'+cabBloque(2,'La gerencia cambió los planes: rediseña los nueve bloques del lienzo.')+
+    '<div class="correo"><span class="sello">URGENTE</span><div class="correo-cab"><span class="av">'+esc(ini)+'</span><div><b>De:</b> '+esc(s.de)+'<br><b>Para:</b> '+esc(S.nombre)+'<br><b>Asunto:</b> '+esc(s.asunto)+'</div></div>'+
+    '<p>'+esc(s.t)+'</p></div>'+
+    '<div class="aviso" style="--c:var(--f2);margin-top:18px"><b>Qué tienes que hacer:</b> imagina que eres parte del equipo y responde al directorio con el <b>nuevo lienzo</b> de '+esc(c.e)+'. '+
+    'Escribe, con tus palabras, cómo queda cada uno de los nueve bloques. Algunos cambian mucho y otros poco; si uno se mantiene, explica por qué. '+
+    'En cada bloque puedes tocar «Lo que tenías» para ver lo que pegaste en la fase 1.</div>'+
+    '<div class="corcho" id="tab2">'+lienzoHTML('lz2', b=>'<details class="antes"><summary>Lo que tenías</summary><div data-antes="'+b+'"></div></details>'+
+      '<textarea class="nota" data-k="b2.'+b+'" data-min="40" placeholder="Nuevo bloque: '+esc(BLOQ[b].n.toLowerCase())+'…"></textarea><div class="cont" data-cont="b2.'+b+'"></div>')+'</div>'+
+    '<label class="l">¿Cuál es el cambio más importante del nuevo modelo y por qué? Relaciónalo con lo que dice el mensaje del directorio.</label>'+
+    ta('b2.clave', 120, 'El cambio más importante es…')+
+    pieBloque(2)+'</section>';
+}
+function renderF2(){
+  ORDEN.forEach(b=>{
+    const d=document.querySelector('[data-antes="'+b+'"]'); if(!d) return;
+    const L=CASO.post.filter((_,i)=>S.resp['b1.p'+i]===b);
+    d.innerHTML = L.length ? '<ul>'+L.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>' : '<i>(no pegaste nada aquí en la fase 1)</i>';
+  });
+}
+function eventosF2(){}
+
+/* ---------------------------- FASE 3 ---------------------------- */
+const FUERZAS = [
+  ['ENT','Amenaza de nuevos entrantes','¿Qué tan fácil es que aparezcan nuevos competidores?','🚪'],
+  ['PRO','Poder de negociación de los proveedores','¿Pueden los proveedores imponer precios o condiciones?','🏭'],
+  ['RIV','Rivalidad entre los competidores actuales','¿Qué tan dura es la competencia hoy?','⚔️'],
+  ['CLI','Poder de negociación de los clientes','¿Pueden los clientes exigir mejores condiciones o cambiarse con facilidad?','🛒'],
+  ['SUS','Amenaza de productos o servicios sustitutos','¿Pueden los clientes resolver su necesidad de otra manera?','🔁']
+];
+const NIVELES = ['Baja','Media','Alta'];
+function htmlB3(c){
+  return '<section id="sB3" class="panel neon" style="--c:var(--f3)">'+cabBloque(3,'Analiza el sector donde compite '+esc(c.e)+' con las cinco fuerzas competitivas de Porter.')+
+    '<div class="ficha-caso" style="transform:rotate(-.3deg)"><div class="kicker" style="color:var(--tinta2)">Caso · el sector</div><h2 style="font-size:22px">'+esc(c.sector.charAt(0).toUpperCase()+c.sector.slice(1))+'</h2>'+String(c.pt).split(/\n\s*\n/).map(p=>'<p>'+esc(p.trim())+'</p>').join('')+'</div>'+
+    '<div class="aviso" style="--c:var(--f3);margin-top:18px"><b>Qué tienes que hacer:</b> el caso no te dice a qué fuerza corresponde cada hecho; descúbrelo tú. '+
+    'Para cada fuerza, elige si es <b>Alta</b>, <b>Media</b> o <b>Baja</b> para '+esc(c.e)+' y justifica con hechos concretos del caso.</div>'+
+    '<div class="porter" id="porter">'+FUERZAS.map(([k,n,q,i])=>'<div class="fz" data-f="'+k+'" style="grid-area:'+k+'"><h4><span class="ico">'+i+'</span>'+n+'</h4><div class="q">'+q+'</div>'+
+      '<div class="niveles" data-niv="'+k+'">'+NIVELES.map(v=>'<button type="button" data-n="'+v+'">'+v+'</button>').join('')+'</div>'+
+      ta('b3.f.'+k+'.j', 80, 'Justifica con hechos del caso.')+'</div>').join('')+'</div>'+
+    '<div class="resumen-f" id="resF"></div>'+
+    '<label class="l">¿Es atractivo este sector para '+esc(c.e)+'? Explica considerando el conjunto de las cinco fuerzas.</label>'+
+    ta('b3.atractivo', 150, 'Mi conclusión sobre el sector es…')+
+    '<label class="l">Vuelve a tu nuevo lienzo de la fase 2: ¿qué bloque protege mejor a '+esc(c.e)+' frente a la fuerza más alta que identificaste? ¿Por qué?</label>'+
+    ta('b3.defensa', 120, 'El bloque que más protege es… porque…')+
+    pieBloque(3)+'</section>';
+}
+function renderF3(){
+  const fijo = !!S.enviados[3] || !!S.cerrada, cuenta={Alta:0,Media:0,Baja:0};
+  FUERZAS.forEach(([k])=>{
+    const v=S.resp['b3.f.'+k]||''; if(cuenta[v]!==undefined) cuenta[v]++;
+    const card=document.querySelector('.fz[data-f="'+k+'"]'); if(!card) return;
+    if(v) card.dataset.nivel=v; else delete card.dataset.nivel;
+    card.querySelectorAll('.niveles button').forEach(b=>{ b.classList.toggle('on', b.dataset.n===v); b.disabled=fijo; });
+  });
+  const r=$('#resF'); if(r) r.innerHTML='<span class="mut" style="padding-left:0">Tu diagnóstico:</span>'+
+    '<span style="background:rgba(239,68,68,.18);color:#fecaca">'+cuenta.Alta+' alta'+(cuenta.Alta===1?'':'s')+'</span>'+
+    '<span style="background:rgba(245,158,11,.18);color:#fde68a">'+cuenta.Media+' media'+(cuenta.Media===1?'':'s')+'</span>'+
+    '<span style="background:rgba(34,197,94,.16);color:#bbf7d0">'+cuenta.Baja+' baja'+(cuenta.Baja===1?'':'s')+'</span>';
+}
+function eventosF3(){
+  $('#contenido').addEventListener('click', e=>{
+    const b=e.target.closest('#porter .niveles button'); if(!b || !S || S.enviados[3] || S.cerrada) return;
+    const k=b.parentNode.dataset.niv; S.resp['b3.f.'+k]=b.dataset.n; b.parentNode.classList.remove('inval'); guardar(); renderF3();
+  });
+}
+function eventosTexto(){
+  $('#contenido').addEventListener('input', e=>{
+    const el=e.target; if(!el.dataset || !el.dataset.k || !S) return;
+    S.resp[el.dataset.k]=el.value; el.classList.remove('inval'); if(el.dataset.min) contador(el); guardar();
+  });
+}
+
+/* =====================================================================
+   VALIDACIÓN Y ENVÍO
+   ===================================================================== */
+function validar(n){
+  const sec = $('#sB'+n); let malos = [], msg = '';
+  if(n===1){
+    const falt = CASO.post.filter((_,i)=>!S.resp['b1.p'+i]).length;
+    if(falt){ malos.push($('#bandeja')); msg = 'Te falta ubicar '+falt+' post-it'+(falt>1?'s':'')+'.'; }
+  }
+  if(n===3){
+    const sin = FUERZAS.filter(([k])=>!S.resp['b3.f.'+k]);
+    sin.forEach(([k])=>{ const el=document.querySelector('.niveles[data-niv="'+k+'"]'); el.classList.add('inval'); malos.push(el); });
+    if(sin.length) msg = 'Elige el nivel (Alta, Media o Baja) de '+sin.length+' fuerza'+(sin.length>1?'s':'')+'.';
+  }
+  sec.querySelectorAll('textarea[data-k]').forEach(el=>{
+    if(el.disabled) return;
+    const mal = (el.value||'').trim().length < +(el.dataset.min||1);
+    el.classList.toggle('inval', mal); if(mal) malos.push(el);
+  });
+  if(malos.length){ malos[0].scrollIntoView({behavior:'smooth',block:'center'}); if(malos[0].focus) malos[0].focus({preventScroll:true}); }
+  return {n:malos.length, msg:msg};
+}
+
+function celdas(n){
+  const R = S.resp, C = CASO, o = {};
+  if(n===1){
+    ORDEN.forEach(b=>{ o['B1 '+BLOQ[b].n] = C.post.filter((_,i)=>R['b1.p'+i]===b).map(t=>'• '+t).join('\n'); });
+    o['B1 Papelera'] = C.post.filter((_,i)=>R['b1.p'+i]==='X').map(t=>'• '+t).join('\n');
+    o['B1 Lógica del modelo'] = R['b1.logica']||''; o['B1 Justificación de descartes'] = R['b1.descartes']||'';
+  } else if(n===2){
+    ORDEN.forEach(b=>{ o['B2 Nuevo · '+BLOQ[b].n] = R['b2.'+b]||''; });
+    o['B2 Cambio más importante'] = R['b2.clave']||'';
+  } else {
+    FUERZAS.forEach(([k,nom])=>{ o['B3 '+nom] = (R['b3.f.'+k]||'')+' — '+(R['b3.f.'+k+'.j']||''); });
+    o['B3 Atractivo del sector'] = R['b3.atractivo']||''; o['B3 Bloque que protege'] = R['b3.defensa']||'';
+  }
+  return o;
+}
+function datosBloque(n){ const d={}; Object.keys(S.resp).forEach(k=>{ if(k.startsWith('b'+n+'.')) d[k]=S.resp[k]; }); return d; }
+
+async function enviarBloque(n){
+  if(S.enviados[n]) return toast('Esta fase ya fue enviada.','ok');
+  if(S.cerrada) return toast('La evaluación está cerrada.','err');
+  const v = validar(n);
+  if(v.n) return toast(v.msg || ('Faltan '+v.n+' respuesta'+(v.n>1?'s':'')+' o no alcanzan el mínimo (marcadas en rojo).'),'err');
+  if(S.preview){ return toast('Vista previa: la fase está completa, pero no se envía nada.','ok'); }
+  const ok = await confirmar('¿Enviar la fase '+n+'?','Después de enviarla ya no podrás modificar tus respuestas de esta fase.');
+  if(!ok) return;
+  const btn = document.querySelector('[data-enviar="'+n+'"]'); btn.disabled=true; btn.textContent='Enviando…';
+  const marca = new Date().toISOString();
+  try{
+    if(conSheet()){
+      const r = await llamar({accion:'enviar', codigo:S.codigo, nombre:S.nombre, carrera:S.carrera, etiqueta:S.etiqueta, empresa:S.empresa, bloque:n, celdas:celdas(n), datos:datosBloque(n), inicio:S.inicio, cliente:marca}, 'POST');
+      if(r && r.yaEnviado){
+        S.enviados[n] = r.enviado || marca; lsSet('c_'+S.codigo,S); pintarEstado(n); progreso();
+        return toast(r.error || 'Esta fase ya estaba registrada en el servidor.','err');
+      }
+      if(!r || !r.ok) throw new Error((r&&r.error)||'El servidor no confirmó el envío.');
+    } else {
+      toast('Modo prueba: la fase se guardó solo en este dispositivo.','ok');
+    }
+    S.enviados[n] = marca; lsSet('c_'+S.codigo,S);
+    pintarEstado(n); progreso();
+    if(conSheet()) toast('¡Fase '+n+' enviada correctamente!','ok');
+    if([1,2,3].every(b=>S.enviados[b])) terminar();
+  }catch(e){
+    btn.disabled=false; btn.textContent='Enviar fase '+n;
+    toast('No se pudo enviar: '+(e.name==='AbortError'?'la conexión tardó demasiado':e.message)+'. Tus respuestas siguen guardadas; intenta de nuevo.','err');
+  }
+}
+
+function confirmar(t, txt){
+  return new Promise(res=>{
+    const m = modal('<h3 style="margin-top:0">'+esc(t)+'</h3><p class="mut">'+esc(txt)+'</p><div class="filab"><button class="btn" data-si>Sí, enviar</button><button class="btn sec" data-no>Revisar otra vez</button></div>');
+    m.querySelector('[data-si]').onclick=()=>{m.remove();res(true);}; m.querySelector('[data-no]').onclick=()=>{m.remove();res(false);};
+  });
+}
+
+function pintarEstado(n){
+  const sec=$('#sB'+n), est=$('#est'+n), env=S.enviados[n], btn=sec.querySelector('[data-enviar]');
+  sec.querySelectorAll('textarea[data-k],input[data-k]').forEach(el=>{ el.disabled = !!env || !!S.cerrada; });
+  if(n===1){ SEL=null; renderF1(); } else if(n===2){ SELA=null; renderF2(); } else renderF3();
+  const tEnv = env ? new Date(env) : null;
+  est.textContent = env ? 'Enviada ✓'+(isNaN(tEnv)?'':' '+tEnv.toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit'})) : (S.cerrada?'Cerrada':'Pendiente');
+  est.classList.toggle('env', !!env);
+  btn.classList.toggle('oculto', !!env || !!S.cerrada);
+  const a = document.querySelector('.nav a[data-b="'+n+'"]'); if(a) a.classList.toggle('hecho', !!env);
+}
+function progreso(){ const k=[1,2,3].filter(b=>S.enviados[b]).length; $('#progBar').style.width=(k*100/3)+'%'; }
+
+function terminar(silencioso){
+  let k=0;
+  const lz = lienzoHTML('lzF', b=>'<div class="pila"><div class="pi" style="--pc:'+PAL[(k*5)%PAL.length]+';--rot:'+ROT[k%ROT.length]+'deg;--d:'+(0.3+(k++)*0.14)+'s">'+esc(S.resp['b2.'+b]||'')+'</div></div>');
+  $('#final').innerHTML='<section class="panel neon final" style="--c:var(--f3)"><div class="big">¡Evaluación completa!</div>'+
+    '<p>Enviaste las tres fases. Este es el <b>nuevo modelo de negocio de '+esc(CASO.e)+'</b> que diseñaste.</p>'+
+    '<div class="corcho fijo">'+lz+'</div>'+
+    '<p style="margin-top:18px">Descarga tu PDF y súbelo a la tarea de Moodle.</p>'+
+    '<div class="filab" style="justify-content:center"><button class="btn" style="--c:var(--f3)" onclick="descargarPDF()">Descargar PDF para Moodle</button></div></section>';
+  if(!silencioso){ $('#final').scrollIntoView({behavior:'smooth'}); confeti(); }
+}
+
+/* =====================================================================
+   PDF  (generado en el navegador, sin librerías externas)
+   ===================================================================== */
+const HELV = [278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584];
+const HELVB = [278,333,474,556,556,889,722,238,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,333,333,584,584,584,611,975,722,722,722,722,667,611,778,722,278,556,722,611,833,722,778,667,778,722,667,611,722,667,944,667,667,611,333,278,333,584,556,333,556,611,556,611,556,333,611,611,278,278,556,278,889,611,611,611,611,389,556,333,611,556,778,556,556,500,389,280,389,584];
+const WA = {'€':128,'‚':130,'„':132,'…':133,'‘':145,'’':146,'“':147,'”':148,'•':149,'–':150,'—':151,'™':153};
+function pdfTxt(s){
+  let o=''; for(const ch of String(s==null?'':s)){
+    const c=ch.codePointAt(0);
+    if(c===9||c===10||c===13){ o+=' '; continue; }
+    if(c>=32&&c<127){ o+=ch; continue; }
+    if(c>=160&&c<256){ o+=String.fromCharCode(c); continue; }
+    if(WA[ch]){ o+=String.fromCharCode(WA[ch]); continue; }
+    if(ch==='↔') o+='<->'; else if(ch==='→') o+='->'; else if(ch==='−') o+='-'; else if(ch==='✓') o+='OK';
+  }
+  return o;
+}
+function anchoTxt(s, size, bold){
+  const T=bold?HELVB:HELV; let w=0;
+  for(const ch of pdfTxt(s)){ const c=ch.charCodeAt(0); let x;
+    if(c>=32&&c<127) x=T[c-32];
+    else if(c>=192){ const b=ch.normalize('NFD')[0].charCodeAt(0); x=(b>=32&&b<127)?T[b-32]:556; }
+    else x = (c===133||c===151)?1000:556;
+    w+=x; }
+  return w*size/1000;
+}
+function partir(s, size, bold, maxW){
+  const out=[];
+  String(s==null?'':s).split(/\n/).forEach(par=>{
+    const pal=par.split(/\s+/).filter(Boolean); let lin='';
+    if(!pal.length){ out.push(''); return; }
+    pal.forEach(p=>{
+      while(anchoTxt(p,size,bold)>maxW){ let k=p.length; while(k>1 && anchoTxt(p.slice(0,k),size,bold)>maxW) k--; if(lin){out.push(lin);lin='';} out.push(p.slice(0,k)); p=p.slice(k); }
+      const prueba = lin ? lin+' '+p : p;
+      if(anchoTxt(prueba,size,bold)<=maxW) lin=prueba; else { out.push(lin); lin=p; }
+    });
+    if(lin) out.push(lin);
+  });
+  return out;
+}
+function PDF(){
+  const pags=[]; let P=null;
+  const rgb = h=>{ h=(h||'#000000').replace('#',''); return [0,2,4].map(i=>(parseInt(h.substr(i,2),16)/255).toFixed(3)).join(' '); };
+  const f = x=>(+x).toFixed(2);
+  const escP = s=>s.replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)');
+  return {
+    pagina(w,h){ P={w:w,h:h,ops:[]}; pags.push(P); return P; },
+    get p(){ return P; },
+    texto(x,y,s,size,bold,color){ P.ops.push('BT /'+(bold?'F2':'F1')+' '+size+' Tf '+rgb(color)+' rg '+f(x)+' '+f(P.h-y)+' Td ('+escP(pdfTxt(s))+') Tj ET'); },
+    rect(x,y,w,h,relleno,borde,gr){ let o=''; if(relleno) o+=rgb(relleno)+' rg '; if(borde) o+=rgb(borde)+' RG '+(gr||0.6)+' w ';
+      P.ops.push(o+f(x)+' '+f(P.h-y-h)+' '+f(w)+' '+f(h)+' re '+(relleno&&borde?'B':relleno?'f':'S')); },
+    linea(x1,y1,x2,y2,color,gr){ P.ops.push(rgb(color)+' RG '+(gr||0.6)+' w '+f(x1)+' '+f(P.h-y1)+' m '+f(x2)+' '+f(P.h-y2)+' l S'); },
+    curva(x1,y1,cx1,cy1,cx2,cy2,x2,y2,color,gr){ P.ops.push(rgb(color)+' RG '+(gr||1)+' w 1 J '+f(x1)+' '+f(P.h-y1)+' m '+f(cx1)+' '+f(P.h-cy1)+' '+f(cx2)+' '+f(P.h-cy2)+' '+f(x2)+' '+f(P.h-y2)+' c S'); },
+    circulo(x,y,r,relleno){ const k=0.5523*r, Y=P.h-y; P.ops.push(rgb(relleno)+' rg '+f(x+r)+' '+f(Y)+' m '+f(x+r)+' '+f(Y+k)+' '+f(x+k)+' '+f(Y+r)+' '+f(x)+' '+f(Y+r)+' c '+f(x-k)+' '+f(Y+r)+' '+f(x-r)+' '+f(Y+k)+' '+f(x-r)+' '+f(Y)+' c '+f(x-r)+' '+f(Y-k)+' '+f(x-k)+' '+f(Y-r)+' '+f(x)+' '+f(Y-r)+' c '+f(x+k)+' '+f(Y-r)+' '+f(x+r)+' '+f(Y-k)+' '+f(x+r)+' '+f(Y)+' c f'); },
+    blob(){
+      const obj=[]; const add=s=>{ obj.push(s); return obj.length; };
+      add('<< /Type /Catalog /Pages 2 0 R >>'); add('');
+      add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+      add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+      const kids=[];
+      pags.forEach(pg=>{ const cont=pg.ops.join('\n'); const c=add('<< /Length '+cont.length+' >>\nstream\n'+cont+'\nendstream');
+        kids.push(add('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+pg.w+' '+pg.h+'] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents '+c+' 0 R >>')); });
+      obj[1]='<< /Type /Pages /Kids ['+kids.map(k=>k+' 0 R').join(' ')+'] /Count '+kids.length+' >>';
+      let out='%PDF-1.4\n%âãÏÓ\n'; const ofs=[];
+      obj.forEach((o,i)=>{ ofs.push(out.length); out+=(i+1)+' 0 obj\n'+o+'\nendobj\n'; });
+      const xr=out.length;
+      out+='xref\n0 '+(obj.length+1)+'\n0000000000 65535 f \n'+ofs.map(o=>String(o).padStart(10,'0')+' 00000 n \n').join('');
+      out+='trailer\n<< /Size '+(obj.length+1)+' /Root 1 0 R >>\nstartxref\n'+xr+'\n%%EOF';
+      const b=new Uint8Array(out.length); for(let i=0;i<out.length;i++) b[i]=out.charCodeAt(i)&255;
+      return new Blob([b],{type:'application/pdf'});
+    }
+  };
+}
+// Coloca los 9 bloques en un rectángulo (x,y,w,h) con la disposición clásica
+function rectsLienzo(x,y,w,h){
+  const cw=w/5, hs=h*0.66, hb=h-hs, r={};
+  r.SO=[x,y,cw,hs]; r.AC=[x+cw,y,cw,hs/2]; r.RK=[x+cw,y+hs/2,cw,hs/2]; r.PV=[x+2*cw,y,cw,hs];
+  r.RC=[x+3*cw,y,cw,hs/2]; r.CA=[x+3*cw,y+hs/2,cw,hs/2]; r.SC=[x+4*cw,y,cw,hs];
+  r.EC=[x,y+hs,w/2,hb]; r.FI=[x+w/2,y+hs,w/2,hb];
+  return r;
+}
+function bloqueTexto(doc, rc, titulo, items, colorNota){
+  const [x,y,w,h]=rc, pad=5;
+  doc.rect(x,y,w,h,'#fffdf7','#1f1b16',0.8);
+  doc.texto(x+pad,y+11,titulo.toUpperCase(),7.5,true,'#1f1b16');
+  let size=7.4, lh, lineas, alto;
+  for(;size>=5.4;size-=0.4){
+    lh=size*1.22; lineas=items.map(t=>partir(t,size,false,w-2*pad-6));
+    alto=lineas.reduce((a,l)=>a+l.length*lh+6,0);
+    if(alto<=h-20) break;
+  }
+  let yy=y+19;
+  lineas.forEach(ls=>{ const hh=ls.length*lh+3;
+    if(colorNota) doc.rect(x+pad,yy,w-2*pad,hh,colorNota,null);
+    ls.forEach((l,j)=>doc.texto(x+pad+3,yy+size+0.6+j*lh,l,size,false,'#1f1b16'));
+    yy+=hh+3; });
+}
+function descargarPDF(){
+  if(!S || !CASO) return;
+  try{
+    const doc=PDF(), R=S.resp, C=CASO, hoy=new Date().toLocaleDateString('es-BO');
+    const env=b=>S.enviados[b]?'enviada':'NO enviada';
+    const cabecera=(tit)=>{ doc.rect(0,0,doc.p.w,40,'#1f1b16',null);
+      doc.texto(28,17,'UNIFRANZ · '+EVAL.materia+' · '+EVAL.semestre+' · '+EVAL.carrera,8,false,'#e7dccb');
+      doc.texto(28,31,tit,12,true,'#ffffff');
+      doc.texto(28,54,S.nombre+'   ·   Código '+S.codigo+'   ·   Caso '+S.etiqueta+'   ·   '+hoy,8.5,false,'#444444'); };
+    // Página 1: el lienzo armado
+    doc.pagina(842,595); cabecera('Fase 1 · Lienzo de '+C.e+' ('+env(1)+')');
+    const r1=rectsLienzo(28,64,786,470), notas=['#fdf3c4','#fde2ef','#dff1fb','#e1f7e6'];
+    DISPOSICION.forEach((b,bi)=>bloqueTexto(doc,r1[b],BLOQ[b].n,C.post.filter((_,i)=>R['b1.p'+i]===b),notas[bi%4]));
+    const pap=C.post.filter((_,i)=>R['b1.p'+i]==='X');
+    partir('Papelera: '+(pap.length?pap.join(' · '):'(vacía)'),7.5,false,786).slice(0,3).forEach((l,j)=>doc.texto(28,548+j*10,l,7.5,j===0,'#333333'));
+    const sinU=C.post.filter((_,i)=>!R['b1.p'+i]).length; if(sinU) doc.texto(28,582,'Post-its sin ubicar: '+sinU,7.5,true,'#b91c1c');
+    // Página 2: el nuevo lienzo (fase 2)
+    doc.pagina(842,595); cabecera('Fase 2 · Nuevo lienzo de '+C.e+' ('+env(2)+')');
+    const r2=rectsLienzo(28,64,786,470);
+    DISPOSICION.forEach((b,bi)=>bloqueTexto(doc,r2[b],BLOQ[b].n,[R['b2.'+b]||'(vacío)'],notas[bi%4]));
+    partir('Cambio más importante: '+(R['b2.clave']||'(sin respuesta)'),7.5,false,786).slice(0,3).forEach((l,j)=>doc.texto(28,548+j*10,l,7.5,j===0,'#333333'));
+    // Página 3: las cinco fuerzas
+    doc.pagina(842,595); cabecera('Fase 3 · Cinco fuerzas de Porter ('+env(3)+')');
+    const COLN={Alta:'#dc2626',Media:'#d97706',Baja:'#16a34a'}, FON={Alta:'#fdecec',Media:'#fdf3e1',Baja:'#e9f8ee'};
+    const bw=254, bh=150, pos={ENT:[294,66],PRO:[28,224],RIV:[294,224],CLI:[560,224],SUS:[294,382]};
+    doc.linea(421,216,421,224,'#8a7f70',1.2); doc.linea(421,374,421,382,'#8a7f70',1.2); doc.linea(282,299,294,299,'#8a7f70',1.2); doc.linea(548,299,560,299,'#8a7f70',1.2);
+    FUERZAS.forEach(([k,n])=>{
+      const [x,y0]=pos[k], niv=R['b3.f.'+k]||'', col=COLN[niv]||'#8a7f70';
+      doc.rect(x,y0,bw,bh,FON[niv]||'#fbf8f1',col,1.6);
+      partir(n,8.5,true,bw-70).forEach((l,j)=>doc.texto(x+7,y0+13+j*10,l,8.5,true,'#1f1b16'));
+      if(niv){ doc.rect(x+bw-58,y0+5,52,16,col,null); doc.texto(x+bw-32-anchoTxt(niv.toUpperCase(),8,true)/2,y0+16,niv.toUpperCase(),8,true,'#ffffff'); }
+      let size=7.6; let ls;
+      for(;size>=5.6;size-=0.4){ ls=partir(R['b3.f.'+k+'.j']||'(sin justificación)',size,false,bw-14); if(ls.length*size*1.25<=bh-36) break; }
+      ls.forEach((l,j)=>{ if(y0+34+j*size*1.25<y0+bh-4) doc.texto(x+7,y0+34+j*size*1.25,l,size,false,'#1f1b16'); });
+    });
+    doc.texto(28,548,'Sector: '+C.sector,8,true,'#333333');
+    // Páginas de texto (A4 vertical)
+    const M=46, W=595-2*M; let y=0;
+    const nueva=()=>{ doc.pagina(595,842); doc.rect(0,0,595,30,'#1f1b16',null); doc.texto(M,19,EVAL.materia+' · Business Model Canvas · '+S.nombre+' · '+S.codigo,8,false,'#e7dccb'); y=56; };
+    const falta=h=>{ if(y+h>842-M) nueva(); };
+    const parrafo=(t,size,bold,color)=>{ size=size||9.5; const lh=size*1.35; partir(t,size,bold,W).forEach(l=>{ falta(lh); doc.texto(M,y+size,l,size,bold,color||'#1f1b16'); y+=lh; }); };
+    const titulo=t=>{ falta(40); y+=8; doc.texto(M,y+13,t,13,true,'#1f1b16'); y+=18; doc.linea(M,y,M+W,y,'#1f1b16',1); y+=8; };
+    const sub=t=>{ falta(26); y+=4; parrafo(t,10,true); y+=2; };
+    const caja=t=>{ const size=9.5, lh=size*1.38, ls=partir(t||'(sin respuesta)',size,false,W-14);
+      let i=0; while(i<ls.length){ falta(lh+10); const cab=Math.max(1,Math.floor((842-M-y-10)/lh)); const tr=ls.slice(i,i+cab);
+        doc.rect(M,y,W,tr.length*lh+10,'#fbf8f1','#b8ae9f',0.6); tr.forEach((l,j)=>doc.texto(M+7,y+5+size+j*lh,l,size,false,'#1f1b16')); y+=tr.length*lh+14; i+=cab; } };
+    nueva();
+    titulo('Ficha de la startup: '+C.e); parrafo(C.r+' · '+C.c,9.5,true,'#555555'); y+=2; parrafo(C.h);
+    titulo('Fase 1 · Arma el lienzo ('+env(1)+')');
+    sub('A. La lógica del modelo'); caja(R['b1.logica']);
+    sub('B. Justificación de los descartes'); caja(R['b1.descartes']);
+    titulo('Fase 2 · La sorpresa de la gerencia ('+env(2)+')');
+    parrafo('Mensaje de: '+C.sorp.de+' · Asunto: '+C.sorp.asunto,9,true,'#555555'); parrafo(C.sorp.t,9,false,'#555555'); y+=4;
+    ORDEN.forEach(b=>{ sub('Nuevo bloque · '+BLOQ[b].n); caja(R['b2.'+b]); });
+    sub('Cambio más importante'); caja(R['b2.clave']);
+    titulo('Fase 3 · Cinco fuerzas de Porter ('+env(3)+')');
+    parrafo('Sector: '+C.sector,9,true,'#555555'); parrafo(C.pt,9,false,'#555555'); y+=4;
+    FUERZAS.forEach(([k,n])=>{ sub(n+': '+(R['b3.f.'+k]||'(sin nivel)')); caja(R['b3.f.'+k+'.j']); });
+    sub('¿Es atractivo el sector?'); caja(R['b3.atractivo']);
+    sub('Bloque del nuevo lienzo que protege frente a la fuerza más alta'); caja(R['b3.defensa']);
+    doc.texto(M,842-22,'Fases enviadas: '+[1,2,3].filter(b=>S.enviados[b]).length+' de 3 · Documento generado el '+new Date().toLocaleString('es-BO'),8,false,'#777777');
+    const url=URL.createObjectURL(doc.blob()), a=document.createElement('a');
+    const ape=(S.nombre||'').split(' ')[0].normalize('NFD').replace(/[^A-Za-z]/g,'');
+    a.href=url; a.download='BMC_'+S.codigo+'_'+(ape||'estudiante')+'.pdf'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+    toast('PDF descargado. Revisa tu carpeta de descargas.','ok');
+  }catch(e){ toast('No se pudo generar el PDF: '+e.message,'err'); }
+}
+
+/* =====================================================================
+   SALIR, LIMPIAR
+   ===================================================================== */
+function salir(){
+  if(S && S.preview){ location.href=location.pathname; return; }
+  const m = modal('<h3 style="margin-top:0">¿Salir de la evaluación?</h3><p class="mut">Las fases que ya enviaste están guardadas en el servidor. Si este dispositivo es compartido, elige borrar tus respuestas.</p>'+
+    '<div class="filab"><button class="btn" data-a="k">Salir y conservar en este dispositivo</button><button class="btn peli" data-a="b">Salir y borrar de este dispositivo</button><button class="btn sec" data-a="c">Cancelar</button></div>');
+  m.querySelector('[data-a="k"]').onclick=()=>{ lsSet('c_'+S.codigo,S); location.href=location.pathname; };
+  m.querySelector('[data-a="b"]').onclick=()=>{ lsDel('c_'+S.codigo); if(lsGet('ultimo')===S.codigo) lsDel('ultimo'); location.href=location.pathname; };
+  m.querySelector('[data-a="c"]').onclick=()=>m.remove();
+}
+function limpiarTodo(){ try{ Object.keys(localStorage).filter(k=>k.indexOf(EVAL.prefijo)===0).forEach(k=>localStorage.removeItem(k)); }catch(e){} }
+
+/* =====================================================================
+   PANEL DE DOCENTE
+   ===================================================================== */
+function pedirClave(){
+  const m = modal('<h3 style="margin-top:0">Panel de docente</h3><label class="l">Clave</label><input type="text" id="dClave" autocomplete="off"><div class="filab"><button class="btn" id="dOk">Entrar</button><button class="btn sec" onclick="this.closest(\'.modal\').remove()">Cancelar</button></div>');
+  const go=()=>{ if(m.querySelector('#dClave').value===CLAVE_DOCENTE){ m.remove(); panelDocente(); } else toast('Clave incorrecta.','err'); };
+  m.querySelector('#dOk').onclick=go; m.querySelector('#dClave').addEventListener('keydown',e=>{ if(e.key==='Enter') go(); });
+  setTimeout(()=>m.querySelector('#dClave').focus(),50);
+}
+function panelDocente(){
+  const lista = CASOS.map((c,i)=>'C'+(i+1)+' · '+esc(c.e)).join('<br>');
+  const m = modal('<h3 style="margin-top:0">Panel de docente</h3>'+
+    '<p class="peq mut">Servidor: '+(conSheet()?'<b style="color:var(--ok)">configurado</b>':'<b style="color:var(--err)">sin URL o envío desactivado (modo prueba)</b>')+' · Casos cargados: '+CASOS.length+'</p>'+
+    '<div class="filab"><button class="btn chico" id="dPing">Probar conexión</button><button class="btn chico" id="dPrueba">Escribir fila de prueba</button></div>'+
+    '<label class="l">Consultar un código</label><div class="filab" style="margin-top:0"><input type="text" id="dCod" placeholder="AB-2345" style="max-width:160px;text-transform:uppercase"><button class="btn chico sec" id="dVer">Ver caso asignado</button></div><p class="peq" id="dRes"></p>'+
+    '<label class="l">Abrir un caso del banco en vista previa</label><div class="filab" style="margin-top:0"><select id="dCaso" style="max-width:260px;padding:9px;border-radius:10px">'+CASOS.map((c,i)=>'<option value="'+i+'">C'+(i+1)+' · '+esc(c.e)+'</option>').join('')+'</select><select id="dVar" style="max-width:110px;padding:9px;border-radius:10px">'+[0,1,2,3,4,5,6].map(v=>'<option value="'+v+'">v'+(v+1)+'</option>').join('')+'</select><button class="btn chico sec" id="dAbrir">Abrir</button></div>'+
+    '<div class="lista-casos">'+lista+'</div>'+
+    '<div class="filab"><button class="btn sec chico" id="dLimpiar">Borrar datos locales de este dispositivo</button><button class="btn sec chico" onclick="this.closest(\'.modal\').remove()">Cerrar</button></div>');
+  m.querySelector('#dPing').onclick=async()=>{ if(!conSheet()) return toast('Primero escribe la URL /exec en la configuración.','err'); try{ const r=await llamar({accion:'ping'},'GET'); toast(r.ok?'Conexión correcta · evaluación '+(r.abierta?'ABIERTA':'CERRADA'):'Respuesta inesperada', r.ok?'ok':'err'); }catch(e){ toast('Sin conexión: '+e.message,'err'); } };
+  m.querySelector('#dPrueba').onclick=async()=>{ if(!conSheet()) return toast('Primero escribe la URL /exec en la configuración.','err'); try{ const r=await llamar({accion:'prueba', clave:CLAVE_DOCENTE},'POST'); toast(r.ok?'Fila de prueba escrita en la hoja Respuestas.':'Error: '+r.error, r.ok?'ok':'err'); }catch(e){ toast('Sin conexión: '+e.message,'err'); } };
+  m.querySelector('#dVer').onclick=()=>{ const c=m.querySelector('#dCod').value.trim().toUpperCase(); if(!RE_COD.test(c)) return m.querySelector('#dRes').textContent='Formato inválido.'; const a=asignar(c); m.querySelector('#dRes').textContent=c+' → C'+(a.caso+1)+'-v'+(a.variante+1)+' · '+CASOS[a.caso].e; };
+  m.querySelector('#dAbrir').onclick=()=>{ const i=+m.querySelector('#dCaso').value, v=+m.querySelector('#dVar').value; m.remove(); S={codigo:'DOCENTE',nombre:'Vista previa del docente',carrera:EVAL.carrera,etiqueta:'C'+(i+1)+'-v'+(v+1),empresa:CASOS[i].e,resp:{},enviados:{},preview:true}; iniciarApp(armarCaso(CASOS[i],v)); };
+  m.querySelector('#dLimpiar').onclick=()=>{ limpiarTodo(); toast('Datos locales borrados.','ok'); };
+}
+let toques=[];
+$('#titulo').addEventListener('click',()=>{ const t=Date.now(); toques=toques.filter(x=>t-x<2500); toques.push(t); if(toques.length>=5){ toques=[]; pedirClave(); } });
+
+/* =====================================================================
+   CONFETI
+   ===================================================================== */
+function confeti(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cv=$('#confeti'); cv.classList.remove('oculto'); const x=cv.getContext('2d');
+  cv.width=innerWidth; cv.height=innerHeight;
+  const cols=PAL.concat(['#f43f5e','#34d399']);
+  const P=Array.from({length:160},()=>({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.5,w:10+Math.random()*8,h:10+Math.random()*8,vy:2+Math.random()*3.2,vx:-1.5+Math.random()*3,r:Math.random()*6,vr:-.15+Math.random()*.3,c:cols[Math.floor(Math.random()*cols.length)]}));
+  let f=0; (function paso(){ x.clearRect(0,0,cv.width,cv.height); P.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.r+=p.vr; x.save(); x.translate(p.x,p.y); x.rotate(p.r); x.fillStyle=p.c; x.fillRect(-p.w/2,-p.h/2,p.w,p.h); x.restore(); }); if(++f<260) requestAnimationFrame(paso); else cv.classList.add('oculto'); })();
+}
+
+/* =====================================================================
+   ARRANQUE
+   ===================================================================== */
+(function(){
+  const q = new URLSearchParams(location.search);
+  if(q.has('limpiar')){ limpiarTodo(); history.replaceState(null,'',location.pathname); setTimeout(()=>toast('Se borraron las respuestas guardadas en este dispositivo.','ok'),300); }
+  portadaMini();
+  eventosF1(); eventosF2(); eventosF3(); eventosTexto();
+  document.addEventListener('scroll', e=>{ if(e.target && e.target.id==='tira') renderDesliza(); }, true);
+  $('#btnEntrar').onclick = entrar;
+  ['#inCodigo','#inNombre'].forEach(s=>$(s).addEventListener('keydown',e=>{ if(e.key==='Enter') entrar(); }));
+  $('#inCodigo').addEventListener('input',e=>{ e.target.value=e.target.value.toUpperCase(); });
+  $('#btnEjemplo').onclick = ()=>verEjemplo(EJEMPLO,'Ejemplo');
+  $('#btnPdf').onclick = descargarPDF;
+  $('#btnSalir').onclick = salir;
+  mostrarContinuar();
+  if(q.has('docente')) setTimeout(pedirClave,200);
+})();
+</script>
+</body>
+</html>
